@@ -198,72 +198,9 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 
   G4double PosZ = -25.3*cm; // extra z-pos to correspond with height in lab
 
-  G4double LN2jacketRadius    = 107.5*mm;
-  G4double LN2jacketHeight    = 590.0*mm;
   G4double jacketHeight       = 680.0*mm;
   G4double jacketflangeHeight = 53.0*mm;
-  G4double LN2PosZ            = 0.5*jacketHeight + 0.5*LN2jacketHeight
-                                + jacketflangeHeight + PosZ;
-
-  G4Tubs* LN2jacket_tube = new G4Tubs("LN2jacket_tube",
-     0.*cm, LN2jacketRadius, 0.5*LN2jacketHeight, 0.*deg, 360.*deg);
-  LN2jacket_log  = new G4LogicalVolume
-    (LN2jacket_tube, LN2jacket_mat, "LN2jacket_log");
-  LN2jacket_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,LN2PosZ),
-     "LN2jacket_phys", LN2jacket_log, lab_phys, false,0);
-
-  G4VisAttributes* LN2jacket_vat = new G4VisAttributes(lgrey);
-  // LN2jacket_log->SetVisAttributes(G4VisAttributes::GetInvisible());
-  // LN2jacket_vat->SetVisibility(true);
-  LN2jacket_log->SetVisAttributes(LN2jacket_vat);
-
-  // LN2jacket vacuum: **********************
-
   G4double LN2jacketMetalThick = 2.0*mm;
-  G4double LN2vacuumRadius     = LN2jacketRadius - LN2jacketMetalThick;
-  G4double LN2vacuumHeight     = LN2jacketHeight - LN2jacketMetalThick;
-
-  G4Tubs* LN2vacuum_tube = new G4Tubs("LN2vacuum_tube",
-     0.*cm, LN2vacuumRadius, 0.5*LN2vacuumHeight, 0.*deg, 360.*deg);
-  LN2vacuum_log  = new G4LogicalVolume
-    (LN2vacuum_tube, vacuum_mat, "LN2vacuum_log");
-  LN2vacuum_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.),
-     "LN2vacuum_phys", LN2vacuum_log, LN2jacket_phys, false,0);
-
-  LN2vacuum_log->SetVisAttributes(G4VisAttributes::GetInvisible());
-
-  // LN2 vessel: ************************************************************
-
-  G4double LN2Radius       = 76.0*mm;
-  G4double LN2Height       = 590.0*mm - 2.*LN2jacketMetalThick;
-  G4double LN2vesselRadius = LN2Radius + LN2jacketMetalThick;
-  G4double LN2vesselHeight = LN2Height;
-  G4double LN2vesselPosZ   = 0.5*LN2vacuumHeight - 0.5*LN2vesselHeight;
-
-  G4Tubs* LN2vessel_tube = new G4Tubs("LN2vessel_tube",
-     0.*cm, LN2vesselRadius, 0.5*LN2vesselHeight, 0.*deg, 360.*deg);
-  LN2vessel_log  = new G4LogicalVolume
-    (LN2vessel_tube, LN2jacket_mat, "LN2vessel_log");
-  LN2vessel_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,LN2vesselPosZ),
-     "LN2vessel_phys", LN2vessel_log, LN2vacuum_phys, false,0);
-
-  G4VisAttributes* LN2vessel_vat = new G4VisAttributes(lgrey);
-  // LN2vessel_log->SetVisAttributes(G4VisAttributes::GetInvisible());
-  // LN2vessel_vat->SetVisibility(true);
-  LN2vessel_log->SetVisAttributes(LN2vessel_vat);
-
-
-  // and finally LN2: *******************************************************
-
-  G4Tubs* LN2_tube = new G4Tubs("LN2_tube",
-     0.*cm, LN2Radius, 0.5*LN2Height, 0.*deg, 360.*deg);
-  LN2_log  = new G4LogicalVolume(LN2_tube, LN2_mat, "LN2_log");
-  LN2_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.),
-     "LN2_phys", LN2_log, LN2vessel_phys, false,0);
-
-  G4VisAttributes* LN2_vat = new G4VisAttributes(green);
-  LN2_vat->SetVisibility(true);
-  LN2_log->SetVisAttributes(LN2_vat);
 
 
   // outer vacuum jacket volume: stainless steel ****************************
@@ -320,32 +257,7 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 
   // copper cooling jacket volume: **************************************
 
-  G4double copperMetalThick = 3.0*mm;
-  G4double copperRadius     = 103.5*mm + copperMetalThick;
-  G4double copperHeight     = 420.0*mm;
-  G4double copperInner      = copperRadius - copperMetalThick;
   G4double vesselHeight     = 320.0*mm;
-  G4double copperVPos       = 0.5*(vesselHeight-copperHeight) + 13.0*cm;
-  G4double coppertopThick   = 1.0*cm;
-  G4double coppertopVPos    = copperVPos + 0.5*(coppertopThick+copperHeight);
-
-  G4Tubs* copper_tube = new G4Tubs("copper_tube",
-     copperInner, copperRadius, 0.5*copperHeight, 0.*deg, 360.*deg);
-  copper_log  = new G4LogicalVolume(copper_tube, copper_mat, "copper_log");
-  copper_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,copperVPos),
-     "copper_phys", copper_log, vacuum_phys, false,0);
-
-  G4Tubs* coppertop_tube = new G4Tubs("coppertop_tube",
-     0.*cm, copperRadius, 0.5*coppertopThick, 0.*deg, 360.*deg);
-  coppertop_log  = new G4LogicalVolume
-    (coppertop_tube, copper_mat, "coppertop_log");
-  coppertop_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,coppertopVPos),
-     "coppertop_phys", coppertop_log, vacuum_phys, false,0);
-
-  G4VisAttributes* copper_vat = new G4VisAttributes(orange);
-  //  copper_log->SetVisAttributes(G4VisAttributes::GetInvisible());
-  copper_log->SetVisAttributes(copper_vat);
-  coppertop_log->SetVisAttributes(copper_vat);
 
   // inner vessel jacket volume: stainless steel ************************
 
@@ -438,7 +350,7 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   G4VisAttributes* pmtvessel_vat  = new G4VisAttributes(yellow);
   G4VisAttributes* pmtvessel_vat2 = new G4VisAttributes(green);
   //  vessel_log->SetVisAttributes(G4VisAttributes::GetInvisible());
-  //  vessel_vat->SetForceSolid(true);
+   vessel_vat->SetForceSolid(true);
   //  pmtvessel_vat->SetForceSolid(true);
   //  pmtvessel_vat2->SetForceSolid(true);
   vessel_log->SetVisAttributes(vessel_vat);
@@ -474,7 +386,7 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
      "GXe_phys", GXe_log, vessel_phys, false,0);
 
   G4VisAttributes* GXe_vat = new G4VisAttributes(cyan);
-  // GXe_vat->SetForceSolid(true);
+  GXe_vat->SetForceSolid(true);
   GXe_vat->SetVisibility(true);
   GXe_log->SetVisAttributes(GXe_vat);
 
@@ -503,7 +415,7 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 
   // attributes
   G4VisAttributes* LXe_vat = new G4VisAttributes(lblue);
-  // LXe_vat->SetForceSolid(true);
+  LXe_vat->SetForceSolid(true);
   LXe_vat->SetVisibility(true);
   LXe_log->SetVisAttributes(LXe_vat);
 
@@ -591,131 +503,15 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 
   // Cu Shield **********************************************************
 
-  G4double CuShieldHeight      = 17.7*cm;
-  G4double CuShieldThickness   = 2.4*mm;
   G4double CuShieldOuterRadius = 3.0*cm;
-  G4double CuShieldInnerRadius = CuShieldOuterRadius-CuShieldThickness;
-  G4double CuShieldVPosition   = -0.5*LXeTubeHeight - PMTDetectorHeight
-                                + 0.5*CuShieldHeight;
-
-  // Zero co-ordinate of the union is the zero of the first volume,
-  // i.e. the offset is still present
-
-  G4Tubs* CuShield_tube = new G4Tubs("CuShield_tube", CuShieldInnerRadius,
-     CuShieldOuterRadius, 0.5*CuShieldHeight, 0.*deg, 360.*deg);
-  CuShield_log  = new G4LogicalVolume(CuShield_tube, CuShield_mat,
-				     "CuShield_log");
-  CuShield_phys = new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, CuShieldVPosition),
-     "CuShield_phys", CuShield_log, LXe_phys, false, 0);
-
-  //  G4VisAttributes* CuShield_vat= new G4VisAttributes(magenta);
-  G4VisAttributes* CuShield_vat = new G4VisAttributes(brown);
-  //  CuShield_vat->SetForceSolid(true);
-  CuShield_vat->SetVisibility(true);
-  CuShield_log->SetVisAttributes(CuShield_vat);
 
   // Cu shield surface
   G4double sigalpha;
-  G4OpticalSurface* OpCuShieldSurface = new G4OpticalSurface
-    ("ShieldSurface", unified, ground, dielectric_metal, sigalpha=30.0*deg);
-  //G4LogicalBorderSurface* ShieldSurface =
-  new G4LogicalBorderSurface
-    ("Shield", LXe_phys, CuShield_phys, OpCuShieldSurface);
-
-  std::vector<G4double> CuShield_PP   = { 7.0*eV, 7.50*eV };
-  std::vector<G4double> CuShield_REFL = { 0.3, 0.2 };
-  G4MaterialPropertiesTable *CuShield_mt = new G4MaterialPropertiesTable();
-  CuShield_mt->AddProperty("REFLECTIVITY", CuShield_PP, CuShield_REFL);
-  OpCuShieldSurface->SetMaterialPropertiesTable(CuShield_mt);
 
   // rings ***************************************************************
 
   G4double ringHeight      =  4.*mm;
-  G4double ringOuterRadius =  4.0*cm;
   G4double ringInnerRadius =  CuShieldOuterRadius;
-  G4double ringVOffset     =  0.5*ringHeight;
-  G4double ringVPosition   =  -0.5*GXeHeight + gasGap +ringVOffset;
-
-  G4Tubs* ring_tube=new G4Tubs("ring_tube", ringInnerRadius,
-     ringOuterRadius, 0.5*ringHeight, 0.*deg, 360.*deg);
-  ring_log = new G4LogicalVolume(ring_tube, ring_mat, "ring_log");
-
-  // optical surface: ring materials table
-  std::vector<G4double> ring_PP   = { 6.00*eV, 7.50*eV };
-  std::vector<G4double> ring_REFL = { 0.7, 0.65 };
-  G4MaterialPropertiesTable *ring_mt = new G4MaterialPropertiesTable();
-  ring_mt->AddProperty("REFLECTIVITY", ring_PP, ring_REFL);
-
-  G4OpticalSurface* OpRingSurface = new G4OpticalSurface
-    ("RingSurface", unified, ground, dielectric_metal, sigalpha=10.*deg);
-  // last argument is surface roughness if it's non-polished - i.e. ground
-  OpRingSurface->SetMaterialPropertiesTable(ring_mt);
-
-  // rings inside gas phase
-  ring_phys_gas[0] = new G4PVPlacement(0, G4ThreeVector
-    (0.*cm, 0.*cm, ringVPosition),"ring_phys0",ring_log,GXe_phys,false, 0);
-  //G4LogicalBorderSurface* RingSurface_gas0 =
-  new G4LogicalBorderSurface
-    ("Ring", GXe_phys, ring_phys_gas[0], OpRingSurface);
-
-  ring_phys_gas[1] = new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=ringHeight+1.0*mm),
-     "ring_phys1",ring_log, GXe_phys, false, 0);
-  //G4LogicalBorderSurface* RingSurface_gas1 =
-  new G4LogicalBorderSurface
-     ("Ring", GXe_phys, ring_phys_gas[1], OpRingSurface);
-
-
-  // rings inside liquid phase:
-  ringVPosition = 0.5*LXeTubeHeight;
-
-  ring_phys_liq[0] = new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=0.5*ringHeight),
-     "ring_phys2",ring_log,LXe_phys, false, 0);
-  //G4LogicalBorderSurface* RingSurface_liq0 =
-  new G4LogicalBorderSurface
-    ("Ring", LXe_phys, ring_phys_liq[0], OpRingSurface);
-
-  ring_phys_liq[1] = new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=ringHeight+1.75*mm),
-     "ring_phys3",ring_log, LXe_phys, false, 0);
-  //G4LogicalBorderSurface* RingSurface_liq1 =
-  new G4LogicalBorderSurface
-    ("Ring", LXe_phys, ring_phys_liq[1], OpRingSurface);
-
-  ring_phys_liq[2]=new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=ringHeight),
-     "ring_phys4",ring_log, LXe_phys, false, 0);
-  //G4LogicalBorderSurface* RingSurface_liq2 =
-  new G4LogicalBorderSurface
-    ("Ring", LXe_phys, ring_phys_liq[2], OpRingSurface);
-
-  ring_phys_liq[3]=new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=ringHeight),
-     "ring_phys5",ring_log, LXe_phys, false, 0);
-  //G4LogicalBorderSurface* RingSurface_liq3 =
-  new G4LogicalBorderSurface
-    ("Ring", LXe_phys, ring_phys_liq[3], OpRingSurface);
-
-  ring_phys_liq[4]=new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=ringHeight+1.75*mm),
-     "ring_phys6",ring_log, LXe_phys,false, 0);
-  //G4LogicalBorderSurface* RingSurface_liq4 =
-  new G4LogicalBorderSurface
-    ("Ring", LXe_phys, ring_phys_liq[4], OpRingSurface);
-
-  ring_phys_liq[5]=new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, ringVPosition-=ringHeight+1.75*mm),
-     "ring_phys7",ring_log, LXe_phys,false, 0);
-  //G4LogicalBorderSurface* RingSurface_liq5 =
-  new G4LogicalBorderSurface
-    ("Ring", LXe_phys, ring_phys_liq[5], OpRingSurface);
-
-
-  G4VisAttributes* ring_vat= new G4VisAttributes(lgrey);
-  ring_vat->SetVisibility(true);
-  ring_log->SetVisAttributes(ring_vat);
 
 
   // Mirror *************************************************************
@@ -972,8 +768,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
         GXe_log->SetUserLimits(theUserLimitsForDetector);
 	//        LXe_log->SetUserLimits(theUserLimitsForXenon);
         LXe_log->SetUserLimits(theUserLimitsForDetector);
-   CuShield_log->SetUserLimits(theUserLimitsForDetector);
-       ring_log->SetUserLimits(theUserLimitsForDetector);
      mirror_log->SetUserLimits(theUserLimitsForDetector);
       grid1_log->SetUserLimits(theUserLimitsForDetector);
       grid2_log->SetUserLimits(theUserLimitsForDetector);

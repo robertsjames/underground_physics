@@ -101,14 +101,6 @@ private:
   G4LogicalVolume*   lab_log;
   G4VPhysicalVolume* lab_phys;
 
-  G4LogicalVolume*   LN2jacket_log;
-  G4VPhysicalVolume* LN2jacket_phys;
-  G4LogicalVolume*   LN2vacuum_log;
-  G4VPhysicalVolume* LN2vacuum_phys;
-  G4LogicalVolume*   LN2vessel_log;
-  G4VPhysicalVolume* LN2vessel_phys;
-  G4LogicalVolume*   LN2_log;
-  G4VPhysicalVolume* LN2_phys;
   G4LogicalVolume*   jacket_log;
   G4VPhysicalVolume* jacket_phys;
   G4LogicalVolume*   jacketflange_log;
@@ -116,10 +108,6 @@ private:
   G4VPhysicalVolume* bottomjacketflange_phys;
   G4LogicalVolume*   vacuum_log;
   G4VPhysicalVolume* vacuum_phys;
-  G4LogicalVolume*   copper_log;
-  G4VPhysicalVolume* copper_phys;
-  G4LogicalVolume*   coppertop_log;
-  G4VPhysicalVolume* coppertop_phys;
   G4LogicalVolume*   vessel_log;
   G4VPhysicalVolume* vessel_phys;
   G4LogicalVolume*   vesseltop_log1;
@@ -138,8 +126,6 @@ private:
   G4VPhysicalVolume* GXe_phys;
   G4LogicalVolume*   gaslag_log;
   G4VPhysicalVolume* gaslag_phys;
-  G4LogicalVolume*   CuShield_log;
-  G4VPhysicalVolume* CuShield_phys;
   G4LogicalVolume*   LXe_log;
   G4VPhysicalVolume* LXe_phys;
   G4LogicalVolume*   liqLag_log;
@@ -148,9 +134,6 @@ private:
   G4VPhysicalVolume* alpha_phys;
   G4LogicalVolume*   americium_log;
   G4VPhysicalVolume* americium_phys;
-  G4LogicalVolume*   ring_log;
-  G4VPhysicalVolume* ring_phys_gas[2];
-  G4VPhysicalVolume* ring_phys_liq[6];
   G4LogicalVolume*   mirror_log;
   G4VPhysicalVolume* mirror_phys;
   G4LogicalVolume*   grid1_log;
