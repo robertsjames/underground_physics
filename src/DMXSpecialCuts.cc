@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // SpecialCuts program
@@ -52,17 +52,17 @@ DMXSpecialCuts::DMXSpecialCuts(const G4String& aName)
    }
 }
 
-DMXSpecialCuts::~DMXSpecialCuts() 
-{                                     
-}                                     
+DMXSpecialCuts::~DMXSpecialCuts()
+{
+}
 
 G4VParticleChange* DMXSpecialCuts::PostStepDoIt(
 			     const G4Track& aTrack,
-			     const G4Step& 
+			     const G4Step&
 			    )
 //
-// Stop the current particle, if requested by G4UserLimits 
-// 			    			    			    
+// Stop the current particle, if requested by G4UserLimits
+//
 {
    aParticleChange.Initialize(aTrack);
    aParticleChange.ProposeEnergy(0.) ;

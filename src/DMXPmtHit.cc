@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // PmtHit (sensitive detector) program
@@ -54,7 +54,7 @@ G4ThreadLocal G4Allocator<DMXPmtHit> *DMXPmtHitsAllocator;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 DMXPmtHit::DMXPmtHit() {
-  
+
   pos = G4ThreeVector(0., 0., 0.);
   time=0.;
 
@@ -118,7 +118,7 @@ void DMXPmtHit::Print() {
 
   //  G4cout << "      PMT hit: " << G4BestUnit(pos,"Length") << G4endl;
 
-  G4cout << "      PMT hit: " << std::setw(5) << G4BestUnit(time,"Time") 
+  G4cout << "      PMT hit: " << std::setw(5) << G4BestUnit(time,"Time")
 	 << ", at " << G4BestUnit(pos,"Length") << G4endl;
 
 

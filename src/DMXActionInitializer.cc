@@ -37,20 +37,20 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-DMXActionInitializer::DMXActionInitializer() : 
+DMXActionInitializer::DMXActionInitializer() :
   G4VUserActionInitialization()
 {;}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void DMXActionInitializer::Build() const 
+void DMXActionInitializer::Build() const
 {
   SetUserAction(new DMXPrimaryGeneratorAction());
   SetUserAction(new DMXRunAction());
   SetUserAction(new DMXEventAction());
   SetUserAction(new DMXSteppingAction());
   SetUserAction(new DMXStackingAction());
-  
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

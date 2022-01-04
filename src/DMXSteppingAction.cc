@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // History:
@@ -57,7 +57,7 @@
 #include "G4ParticleTypes.hh"
 #include "G4VVisManager.hh"
 #include "G4Colour.hh"
-#include "G4Polyline.hh" 
+#include "G4Polyline.hh"
 #include "G4VisAttributes.hh"
 #include "globals.hh"
 #include "G4ios.hh"
@@ -93,7 +93,7 @@ DMXSteppingAction::~DMXSteppingAction()
 void DMXSteppingAction::UserSteppingAction(const G4Step* fStep)
 {
   if (!evtAction)
-    evtAction = 
+    evtAction =
       dynamic_cast<const DMXEventAction*>
       (G4RunManager::GetRunManager()->GetUserEventAction());
 
@@ -106,11 +106,11 @@ void DMXSteppingAction::UserSteppingAction(const G4Step* fStep)
   //  if(StepNo >= MaxNoSteps) fStep->GetTrack()->SetTrackStatus(fStopAndKill);
 
   G4int StepNo = fStep->GetTrack()->GetCurrentStepNumber();
-  if(StepNo == 1) 
-    { 
+  if(StepNo == 1)
+    {
       G4double partEnergy = fStep->GetPreStepPoint()->GetKineticEnergy();
       G4ParticleDefinition* particleType = fStep->GetTrack()->GetDefinition();
-     
+
       G4AnalysisManager* man = G4AnalysisManager::Instance();
       if (particleType == G4Gamma::Definition())
 	man->FillH1(8,partEnergy);
@@ -182,9 +182,9 @@ void DMXSteppingAction::UserSteppingAction(const G4Step* fStep)
       polyline.push_back(end);
       pVVisManager->Draw(polyline);
     }
-    
+
   }
-  
+
 }
 
 

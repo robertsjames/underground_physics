@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // History/Additions:
@@ -72,7 +72,7 @@
 #include "G4SystemOfUnits.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-DMXEventAction::DMXEventAction() 
+DMXEventAction::DMXEventAction()
   : runAct(0),genAction(0),hitsfile(0),pmtfile(0)
 {
 
@@ -85,7 +85,7 @@ DMXEventAction::DMXEventAction()
   drawHitsFlag = 1;
   savePmtFlag  = 0;
   saveHitsFlag = 1;
-  
+
   printModulo = 1;
 
   // hits collections
@@ -116,15 +116,15 @@ DMXEventAction::~DMXEventAction() {
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-void DMXEventAction::BeginOfEventAction(const G4Event* evt) 
+void DMXEventAction::BeginOfEventAction(const G4Event* evt)
 {
 
   //thread-local run action
-  if (!runAct) 
-    runAct = 
+  if (!runAct)
+    runAct =
       dynamic_cast<const DMXRunAction*>
       (G4RunManager::GetRunManager()->GetUserRunAction());
-  
+
   if (!genAction)
     genAction = dynamic_cast<const DMXPrimaryGeneratorAction*>
       (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
@@ -137,14 +137,14 @@ void DMXEventAction::BeginOfEventAction(const G4Event* evt)
   energy_pri = genAction->GetEnergyPrimary();
 
   event_id = evt->GetEventID();
- 
-  // print this information event by event (modulo n)  	
+
+  // print this information event by event (modulo n)
   if (event_id%printModulo == 0)
     {
       G4cout << "\n---> Begin of event: " << event_id << G4endl;
-      G4cout << "\n     Primary Energy: " << G4BestUnit(energy_pri,"Energy") 
+      G4cout << "\n     Primary Energy: " << G4BestUnit(energy_pri,"Energy")
 	     << G4endl;
-      //      HepRandom::showEngineStatus(); 
+      //      HepRandom::showEngineStatus();
     }
 
 
@@ -207,7 +207,7 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
   // scintillator hits
   if(SHC) {
     S_hits = SHC->entries();
-    
+
     for (G4int i=0; i<S_hits; i++) {
       if(i==0) {
 	firstParticleName = (*SHC)[0]->GetParticle();
@@ -215,12 +215,12 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
 	firstParticleE = (*SHC)[0]->GetParticleEnergy();
 	if (event_id%printModulo == 0 && S_hits > 0) {
 	  G4cout << "     First hit in LXe: " << firstParticleName << G4endl;
-	  G4cout << "     Number of hits in LXe: " << S_hits << G4endl; 
+	  G4cout << "     Number of hits in LXe: " << S_hits << G4endl;
 	}
       }
       hitEnergy         = (*SHC)[i]->GetEdep();
       totEnergy        += hitEnergy;
-      
+
       particleName      = (*SHC)[i]->GetParticle();
       particleEnergy    = (*SHC)[i]->GetParticleEnergy();
 
@@ -229,13 +229,13 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
 	start_gamma = true;
 	start_neutron = false;
       }
-      else if(particleName == "neutron") 
+      else if(particleName == "neutron")
 	neutron_ev = true;
-      else if(particleName == "e+") 
+      else if(particleName == "e+")
 	positron_ev = true;
-      else if(particleName == "e-") 
+      else if(particleName == "e-")
 	electron_ev = true;
-      else if(particleName == "proton") 
+      else if(particleName == "proton")
 	proton_ev = true;
       else {
 	other_ev = true;
@@ -243,23 +243,23 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
 	start_neutron = true;
       }
 
-      if(start_gamma && !start_neutron) 
+      if(start_gamma && !start_neutron)
 	totEnergyGammas += hitEnergy;
-      if(start_neutron && !start_gamma) 
+      if(start_neutron && !start_gamma)
 	totEnergyNeutrons += hitEnergy;
     }
-    
+
     if (event_id%printModulo == 0)
-      G4cout << "     Total energy in LXe: " 
-	     << G4BestUnit(totEnergy,"Energy") << G4endl;  
-    
+      G4cout << "     Total energy in LXe: "
+	     << G4BestUnit(totEnergy,"Energy") << G4endl;
+
   }
-  
-  
+
+
   // PMT hits
   if(PHC) {
     P_hits = PHC->entries();
-    
+
     // average time of PMT hits
     for (G4int i=0; i<P_hits; i++) {
       G4double time = ( (*PHC)[i]->GetTime() - firstLXeHitTime );
@@ -269,49 +269,49 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
 	man->FillH1(7,time);
       }
     }
-  
+
     if (event_id%printModulo == 0 && P_hits > 0) {
       G4cout << "     Average light collection time: "
 	     << G4BestUnit(aveTimePmtHits,"Time") << G4endl;
-      G4cout << "     Number of PMT hits (photoelectron equivalent): " 
-	     << P_hits << G4endl;     
+      G4cout << "     Number of PMT hits (photoelectron equivalent): "
+	     << P_hits << G4endl;
     }
     // write out (x,y,z) of PMT hits
     if (savePmtFlag)
       writePmtHitsToFile(PHC);
   }
-  
+
 
   // write out event summary
-  if(saveHitsFlag) 
+  if(saveHitsFlag)
     writeScintHitsToFile();
-  
+
   // draw trajectories
   if(drawColsFlag=="standard" && drawTrksFlag!="none")
     drawTracks(evt);
 
   // hits in PMT
-  if(drawHitsFlag && PHC) 
+  if(drawHitsFlag && PHC)
     PHC->DrawAllHits();
 
-  // print this event by event (modulo n)  	
-  if (event_id%printModulo == 0) 
-    G4cout << "\n---> End of event: " << event_id << G4endl << G4endl;	
+  // print this event by event (modulo n)
+  if (event_id%printModulo == 0)
+    G4cout << "\n---> End of event: " << event_id << G4endl << G4endl;
 
 }
 
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-void DMXEventAction::writeScintHitsToFile() 
+void DMXEventAction::writeScintHitsToFile()
 {
 
   G4String filename="hits.out";
   if (runAct)
     filename=runAct->GetsavehitsFile();
 
- 
-  
+
+
   //First time it is inkoved
   if (!hitsfile)
     {
@@ -320,14 +320,14 @@ void DMXEventAction::writeScintHitsToFile()
       if (G4Threading::G4GetThreadId() >= 0)
 	{
 	  std::stringstream sss;
-	  sss << filename.c_str() << "." << G4Threading::G4GetThreadId();	 
+	  sss << filename.c_str() << "." << G4Threading::G4GetThreadId();
 	  filename = sss.str();
 	  //G4cout << "Filename is: " << filename << G4endl;
 	}
-      
+
       hitsfile = new std::ofstream;
       hitsfile->open(filename);
-      (*hitsfile) <<"Evt     Eprim   Etot    LXe     LXeTime PMT     PMTTime Seed1           Seed2           First   Flags" 
+      (*hitsfile) <<"Evt     Eprim   Etot    LXe     LXeTime PMT     PMTTime Seed1           Seed2           First   Flags"
 	       << G4endl;
       (*hitsfile) <<"#       MeV     MeV     hits    ns      hits    ns                                      hit"
 	       << G4endl
@@ -344,28 +344,28 @@ void DMXEventAction::writeScintHitsToFile()
 		  << std::setiosflags(std::ios::left)
 		  << std::setw(6)
 		  << event_id << "\t"
-		  << energy_pri/MeV << "\t" 
+		  << energy_pri/MeV << "\t"
 		  << totEnergy/MeV << "\t"
 		  << S_hits  << "\t"
-		  << std::setiosflags(std::ios::scientific) 
+		  << std::setiosflags(std::ios::scientific)
 		  << std::setprecision(2)
 		  << firstLXeHitTime/nanosecond << "\t"
 		  << P_hits << "\t"
-		  << std::setiosflags(std::ios::fixed) 
+		  << std::setiosflags(std::ios::fixed)
 		  << std::setprecision(4)
 		  << aveTimePmtHits/nanosecond << "\t"
 		  << *seeds     << "\t"
 		  << *(seeds+1) << "\t"
 		  << firstParticleName << "\t"
-		  << (gamma_ev    ? "gamma " : "") 
-		  << (neutron_ev  ? "neutron " : "") 
-		  << (positron_ev ? "positron " : "") 
-		  << (electron_ev ? "electron " : "") 
-		  << (other_ev    ? "other " : "") 
+		  << (gamma_ev    ? "gamma " : "")
+		  << (neutron_ev  ? "neutron " : "")
+		  << (positron_ev ? "positron " : "")
+		  << (electron_ev ? "electron " : "")
+		  << (other_ev    ? "other " : "")
 		  << G4endl;
 
       if (event_id%printModulo == 0)
-	G4cout << "     Event summary in file " << filename << G4endl;  
+	G4cout << "     Event summary in file " << filename << G4endl;
     }
 
     G4AnalysisManager* man = G4AnalysisManager::Instance();
@@ -387,8 +387,8 @@ void DMXEventAction::writeScintHitsToFile()
     man->FillH1(6,aveTimePmtHits/ns);
 
     long seed1 = *seeds;
-    long seed2 = *(seeds+1);    
-    
+    long seed2 = *(seeds+1);
+
     //Fill ntuple #2
     man->FillNtupleDColumn(2,0,event_id);
     man->FillNtupleDColumn(2,1,energy_pri/keV);
@@ -407,19 +407,19 @@ void DMXEventAction::writeScintHitsToFile()
     man->FillNtupleDColumn(2,14,seed1);
     man->FillNtupleDColumn(2,15,seed2);
     man->AddNtupleRow(2);
-    
+
   }
 
 }
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits) 
-{ 
+void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
+{
   G4String filename="pmt.out";
   if (runAct)
     filename=runAct->GetsavepmtFile();
-  
+
 
   //first time it is invoked: create it
   if (!pmtfile)
@@ -429,7 +429,7 @@ void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
       if (G4Threading::G4GetThreadId() >= 0)
 	{
 	  std::stringstream sss;
-	  sss << filename.c_str() << "." << G4Threading::G4GetThreadId();	 
+	  sss << filename.c_str() << "." << G4Threading::G4GetThreadId();
 	  filename = sss.str();
 	  //G4cout << "Filename is: " << filename << G4endl;
 	}
@@ -442,7 +442,7 @@ void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
   G4AnalysisManager* man = G4AnalysisManager::Instance();
 
   if(pmtfile->is_open()) {
-    (*pmtfile) << "Hit#    X, mm   Y, mm   Z, mm" << G4endl;       
+    (*pmtfile) << "Hit#    X, mm   Y, mm   Z, mm" << G4endl;
     (*pmtfile) << std::setiosflags(std::ios::fixed)
 	       << std::setprecision(3)
 	       << std::setiosflags(std::ios::left)
@@ -453,10 +453,10 @@ void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
 	y = ((*hits)[i]->GetPos()).y()/mm;
 	z = ((*hits)[i]->GetPos()).z()/mm;
 	(*pmtfile) << i << "\t"
-		   << x << "\t" 
+		   << x << "\t"
 		   << y << "\t"
 		   << z << G4endl;
-	
+
 	man->FillH2(1,x/mm, y/mm);  // fill(x,y)
 	if (event_id == 0 ) {
 	  man->FillH2(2,x,y);
@@ -471,10 +471,10 @@ void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
 	man->AddNtupleRow(3);
 
       }
-    if (event_id%printModulo == 0 && P_hits > 0) 
-      G4cout << "     " << P_hits << " PMT hits in " << filename << G4endl;  
+    if (event_id%printModulo == 0 && P_hits > 0)
+      G4cout << "     " << P_hits << " PMT hits in " << filename << G4endl;
   }
-  
+
 }
 
 
@@ -483,23 +483,23 @@ void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
 void DMXEventAction::drawTracks(const G4Event* evt) {
 
   if(G4VVisManager::GetConcreteInstance()) {
-    G4UImanager::GetUIpointer()->ApplyCommand("/vis/scene/notifyHandlers");    
+    G4UImanager::GetUIpointer()->ApplyCommand("/vis/scene/notifyHandlers");
     G4TrajectoryContainer* trajContainer = evt->GetTrajectoryContainer();
     G4int n_trajectories = 0;
 
     if(trajContainer) n_trajectories = trajContainer->entries();
     for (G4int i=0; i<n_trajectories; i++) {
       G4Trajectory* trj = (G4Trajectory*)(*trajContainer)[i];
-      if (drawTrksFlag == "all") 
+      if (drawTrksFlag == "all")
 	trj->DrawTrajectory();
       else if ((drawTrksFlag == "charged") && (trj->GetCharge() != 0.))
 	trj->DrawTrajectory();
-      else if ((drawTrksFlag == "noscint") 
+      else if ((drawTrksFlag == "noscint")
 	       && (trj->GetParticleName() != "opticalphoton"))
 	trj->DrawTrajectory();
     }
-    
-    // G4UImanager::GetUIpointer()->ApplyCommand("/vis/viewer/update");    
-  } 
+
+    // G4UImanager::GetUIpointer()->ApplyCommand("/vis/viewer/update");
+  }
 
 }

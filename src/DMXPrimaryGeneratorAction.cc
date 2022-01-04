@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 //
@@ -57,7 +57,7 @@
 
 
 DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction() {
-  
+
 #ifdef DMXENV_GPS_USE
   particleGun = new G4GeneralParticleSource();
 #else

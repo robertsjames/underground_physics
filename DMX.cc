@@ -61,7 +61,7 @@ int main(int argc,char** argv) {
   // Construct the default run manager
   auto* runManager = G4RunManagerFactory::CreateRunManager();
   G4int nThreads = 4;
-  runManager->SetNumberOfThreads(nThreads); 
+  runManager->SetNumberOfThreads(nThreads);
 
   // set mandatory initialization classes
   runManager->SetUserInitialization(new DMXDetectorConstruction);

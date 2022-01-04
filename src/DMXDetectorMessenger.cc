@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // SteppingActionMessenger program
@@ -90,7 +90,7 @@ DMXDetectorMessenger::DMXDetectorMessenger
 
 
 //ooooooooooooooooooooooooooooooooooooooooo
-DMXDetectorMessenger::~DMXDetectorMessenger() 
+DMXDetectorMessenger::~DMXDetectorMessenger()
 {
   delete EKineCutCmd;
   delete RoomEKineCutCmd;
@@ -100,8 +100,8 @@ DMXDetectorMessenger::~DMXDetectorMessenger()
 
 
 //ooooooooooooooooooooooooooooooooooooooooo
-void DMXDetectorMessenger::SetNewValue(G4UIcommand* command, 
-				       G4String newValue) 
+void DMXDetectorMessenger::SetNewValue(G4UIcommand* command,
+				       G4String newValue)
 {
 
   if(command == EKineCutCmd)

@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // ScintSD (scintillator sensitive detector definition) program
@@ -57,7 +57,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-DMXScintSD::DMXScintSD(G4String name) 
+DMXScintSD::DMXScintSD(G4String name)
   :G4VSensitiveDetector(name)
 {
   G4String HCname="scintillatorCollection";
@@ -87,7 +87,7 @@ G4bool DMXScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   if(aStep->GetTrack()->GetDefinition()
      == G4OpticalPhoton::OpticalPhotonDefinition()) return false;
 
-  
+
   G4double edep = aStep->GetTotalEnergyDeposit();
   G4ParticleDefinition* particleType = aStep->GetTrack()->GetDefinition();
   G4String particleName = particleType->GetParticleName();
@@ -95,8 +95,8 @@ G4bool DMXScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   G4double stepl = 0.;
   if (particleType->GetPDGCharge() != 0.)
     stepl = aStep->GetStepLength();
-  
-  if ((edep==0.)&&(stepl==0.)) return false;      
+
+  if ((edep==0.)&&(stepl==0.)) return false;
 
 
   // fill in hit
@@ -108,7 +108,7 @@ G4bool DMXScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   newHit->SetParticleEnergy(aStep->GetPreStepPoint()->GetKineticEnergy() );
 
   HitID = scintillatorCollection->insert(newHit);
-  
+
   return true;
 }
 
@@ -135,17 +135,17 @@ void DMXScintSD::EndOfEvent(G4HCofThisEvent* HCE)
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void DMXScintSD::clear()
-{} 
+{}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void DMXScintSD::DrawAll()
-{} 
+{}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void DMXScintSD::PrintAll()
-{} 
+{}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 

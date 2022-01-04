@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // ScintHit (scintillator sensitive detector definition) program
@@ -104,7 +104,7 @@ void DMXScintHit::Draw()
 void DMXScintHit::Print()
 {
 
-  G4cout << "      LXe hit ENERGY: " << std::setw(5) << G4BestUnit(edep,"Energy") 
+  G4cout << "      LXe hit ENERGY: " << std::setw(5) << G4BestUnit(edep,"Energy")
 	 << ", at " << G4BestUnit(pos,"Length") << G4endl;
 }
 

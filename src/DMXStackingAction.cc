@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // StackingAction program
@@ -69,12 +69,12 @@ DMXStackingAction::DMXStackingAction() {
 
 
 DMXStackingAction::~DMXStackingAction() {
-  
-  delete theMessenger; 
+
+  delete theMessenger;
 }
 
 
-G4ClassificationOfNewTrack DMXStackingAction::ClassifyNewTrack 
+G4ClassificationOfNewTrack DMXStackingAction::ClassifyNewTrack
 (const G4Track* aTrack) {
 
 
@@ -107,7 +107,7 @@ G4ClassificationOfNewTrack DMXStackingAction::ClassifyNewTrack
 
 void DMXStackingAction::NewStage() {;}
 
-    
+
 void DMXStackingAction::PrepareNewEvent() {;}
 
 

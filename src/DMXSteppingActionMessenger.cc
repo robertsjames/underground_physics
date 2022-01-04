@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // SteppingActionMessenger program
@@ -92,16 +92,16 @@ DMXSteppingActionMessenger::DMXSteppingActionMessenger
 //ooooooooooooooooooooooooooooooooooooooooo
 DMXSteppingActionMessenger::~DMXSteppingActionMessenger() {
 
-  delete colourNeutronCmd;  
-  delete colourGammaCmd;  
-  delete colourOpticalCmd;  
-  delete colourChargedPlusCmd;  
-  delete colourChargedMinusCmd;  
+  delete colourNeutronCmd;
+  delete colourGammaCmd;
+  delete colourOpticalCmd;
+  delete colourChargedPlusCmd;
+  delete colourChargedMinusCmd;
 }
 
 
 //ooooooooooooooooooooooooooooooooooooooooo
-void DMXSteppingActionMessenger::SetNewValue(G4UIcommand* command, 
+void DMXSteppingActionMessenger::SetNewValue(G4UIcommand* command,
   G4String newValue) {
 
   if(command == colourNeutronCmd)

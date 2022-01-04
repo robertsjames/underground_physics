@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // PmtSD (sensitive PMT) program
@@ -52,7 +52,7 @@
 #include "G4ios.hh"
 
 
-DMXPmtSD::DMXPmtSD(G4String name) 
+DMXPmtSD::DMXPmtSD(G4String name)
   :G4VSensitiveDetector(name) {
 
   G4String HCname="pmtCollection";
@@ -67,7 +67,7 @@ DMXPmtSD::~DMXPmtSD() {;}
 void DMXPmtSD::Initialize(G4HCofThisEvent*) {
 
   pmtCollection = new DMXPmtHitsCollection
-    (SensitiveDetectorName,collectionName[0]); 
+    (SensitiveDetectorName,collectionName[0]);
 
   HitID = -1;
 
@@ -87,7 +87,7 @@ G4bool DMXPmtSD::ProcessHits
   HitID = pmtCollection->insert(aPmtHit);
 
   return true;
- 
+
 }
 
 
@@ -101,7 +101,7 @@ void DMXPmtSD::EndOfEvent(G4HCofThisEvent* HCE) {
   if(HCID<0)
     HCID = G4SDManager::GetSDMpointer()->GetCollectionID(HCname);
   HCE->AddHitsCollection(HCID,pmtCollection);
-  
+
   G4int nHits = pmtCollection->entries();
   if (verboseLevel>=1) {
     G4cout << "     PMT collection: " << nHits << " hits" << G4endl;

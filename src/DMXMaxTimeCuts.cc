@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // MaxTimeCuts program
@@ -62,7 +62,7 @@ DMXMaxTimeCuts::DMXMaxTimeCuts(DMXMaxTimeCuts&)
  : DMXSpecialCuts()
 {}
 
- 
+
 G4double DMXMaxTimeCuts::PostStepGetPhysicalInteractionLength(
                              const G4Track& aTrack,
 			     G4double ,
@@ -81,17 +81,17 @@ G4double DMXMaxTimeCuts::PostStepGetPhysicalInteractionLength(
    //   G4ParticleDefinition* aParticleDef = aTrack.GetDefinition();
 
    //   G4cout << " Time: " << pUserLimits->GetUserMaxTime(aTrack) << G4endl;
-  
+
    if (pUserLimits) {
      G4double temp = DBL_MAX;
      //max time limit
      G4double dTime= (pUserLimits->GetUserMaxTime(aTrack) - aTrack.GetGlobalTime());
      if (dTime < 0. ) {
        proposedStep = 0.;
-     } else {  
+     } else {
        G4double beta = (aParticle->GetTotalMomentum())/(aParticle->GetTotalEnergy());
        temp = beta*c_light*dTime;
-       if (proposedStep > temp) proposedStep = temp;                  
+       if (proposedStep > temp) proposedStep = temp;
      }
 
    }

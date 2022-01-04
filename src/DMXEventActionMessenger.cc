@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // EventActionMessenger program
@@ -101,26 +101,26 @@ DMXEventActionMessenger::DMXEventActionMessenger(DMXEventAction* EvAct)
   PrintCmd->SetGuidance("Print events modulo n");
   PrintCmd->SetParameterName("EventNb",false);
   PrintCmd->SetRange("EventNb>0");
-  PrintCmd->AvailableForStates(G4State_Idle);     
+  PrintCmd->AvailableForStates(G4State_Idle);
 
 }
 
 
 DMXEventActionMessenger::~DMXEventActionMessenger() {
 
-  delete SavePmtCmd;  
-  delete SaveHitsCmd;  
+  delete SavePmtCmd;
+  delete SaveHitsCmd;
   delete dmxDirectory;
   delete DrawColsCmd;
   delete DrawTrksCmd;
-  delete DrawHitsCmd;  
+  delete DrawHitsCmd;
   delete drawDirectory;
   delete PrintCmd;
 
 }
 
 void DMXEventActionMessenger::SetNewValue
-   (G4UIcommand* command, G4String newValue) { 
+   (G4UIcommand* command, G4String newValue) {
 
   if(command == DrawColsCmd)
     eventAction->SetDrawColsFlag(newValue);

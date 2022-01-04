@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // RunActionMessenger program
@@ -54,7 +54,7 @@
 
 DMXRunActionMessenger::DMXRunActionMessenger(DMXRunAction* run)
 :DMXRun(run)
-{ 
+{
   SaveHitsCmd = new G4UIcmdWithAString("/dmx/hitsfile",this);
   SaveHitsCmd->SetGuidance("output file for hits collection (txt)");
   SaveHitsCmd->SetGuidance("Default = hits.out");
@@ -82,15 +82,15 @@ DMXRunActionMessenger::DMXRunActionMessenger(DMXRunAction* run)
 
 DMXRunActionMessenger::~DMXRunActionMessenger()
 {
-  delete SaveHitsCmd;  
-  delete SavePmtCmd;  
-  delete SaveHistFileCmd;  
+  delete SaveHitsCmd;
+  delete SavePmtCmd;
+  delete SaveHistFileCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void DMXRunActionMessenger::SetNewValue(G4UIcommand * command,G4String newValue)
-{ 
+{
   if(command == SaveHitsCmd)
     DMXRun->SetsavehitsFile(newValue);
 

@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // ParticleSourceMessenger program
@@ -45,7 +45,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <fstream>
-#include <iomanip>               
+#include <iomanip>
 
 #include "DMXParticleSourceMessenger.hh"
 #include "DMXParticleSource.hh"
@@ -82,14 +82,14 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   listCmd->SetGuidance("List available particles.");
   listCmd->SetGuidance(" Invoke G4ParticleTable.");
 
-  // set particle  
+  // set particle
   particleCmd = new G4UIcmdWithAString("/dmx/gun/particle",this);
   particleCmd->SetGuidance("Set particle to be generated.");
   particleCmd->SetGuidance(" (geantino is default)");
   particleCmd->SetGuidance(" (ion can be specified for shooting ions)");
   particleCmd->SetParameterName("particleName",true);
   particleCmd->SetDefaultValue("geantino");
-  G4String candidateList; 
+  G4String candidateList;
   G4int nPtcl = particleTable->entries();
   for(G4int i=0;i<nPtcl;i++)
     {
@@ -98,15 +98,15 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
     }
   candidateList += "ion ";
   particleCmd->SetCandidates(candidateList);
-  
+
 
   // particle direction
   directionCmd = new G4UIcmdWith3Vector("/dmx/gun/direction",this);
   directionCmd->SetGuidance("Set momentum direction.");
   directionCmd->SetGuidance("Direction needs not to be a unit vector.");
-  directionCmd->SetParameterName("Px","Py","Pz",true,true); 
+  directionCmd->SetParameterName("Px","Py","Pz",true,true);
   directionCmd->SetRange("Px != 0 || Py != 0 || Pz != 0");
-  
+
   // particle energy
   energyCmd = new G4UIcmdWithADoubleAndUnit("/dmx/gun/energy",this);
   energyCmd->SetGuidance("Set kinetic energy.");
@@ -122,8 +122,8 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   //positionCmd->SetUnitCategory("Length");
   //positionCmd->SetUnitCandidates("microm mm cm m km");
 
- 
-  // ion 
+
+  // ion
   ionCmd = new G4UIcommand("/dmx/gun/ion",this);
   ionCmd->SetGuidance("Set properties of ion to be generated.");
   ionCmd->SetGuidance("[usage] /gun/ion Z A Q E");
@@ -131,7 +131,7 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   ionCmd->SetGuidance("        A:(int) AtomicMass");
   ionCmd->SetGuidance("        Q:(int) Charge of Ion (in unit of e)");
   ionCmd->SetGuidance("        E:(double) Excitation energy (in keV)");
-  
+
   G4UIparameter* param;
   param = new G4UIparameter("Z",'i',false);
   param->SetDefaultValue("1");
@@ -145,7 +145,7 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   param = new G4UIparameter("E",'d',true);
   param->SetDefaultValue("0.0");
   ionCmd->SetParameter(param);
-  
+
 
   // source distribution type
   typeCmd = new G4UIcmdWithAString("/dmx/gun/type",this);
@@ -154,14 +154,14 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   typeCmd->SetParameterName("DisType",true,true);
   typeCmd->SetDefaultValue("Point");
   typeCmd->SetCandidates("Point Volume");
-  
+
   // source shape
   shapeCmd = new G4UIcmdWithAString("/dmx/gun/shape",this);
   shapeCmd->SetGuidance("Sets source shape type.");
   shapeCmd->SetParameterName("Shape",true,true);
   shapeCmd->SetDefaultValue("NULL");
   shapeCmd->SetCandidates("Sphere Cylinder");
-  
+
   // centre coordinates
   centreCmd = new G4UIcmdWith3VectorAndUnit("/dmx/gun/centre",this);
   centreCmd->SetGuidance("Set centre coordinates of source.");
@@ -176,20 +176,20 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   halfzCmd->SetDefaultUnit("cm");
   halfzCmd->SetUnitCandidates("nm um mm cm m km");
 
-  // radius of source  
+  // radius of source
   radiusCmd = new G4UIcmdWithADoubleAndUnit("/dmx/gun/radius",this);
   radiusCmd->SetGuidance("Set radius of source.");
   radiusCmd->SetParameterName("Radius",true,true);
   radiusCmd->SetDefaultUnit("cm");
   radiusCmd->SetUnitCandidates("nm um mm cm m km");
-  
+
   // confine to volume
   confineCmd = new G4UIcmdWithAString("/dmx/gun/confine",this);
   confineCmd->SetGuidance("Confine source to volume (NULL to unset).");
   confineCmd->SetGuidance("usage: confine VolName");
   confineCmd->SetParameterName("VolName",true,true);
   confineCmd->SetDefaultValue("NULL");
-  
+
   // angular distribution
   angtypeCmd = new G4UIcmdWithAString("/dmx/gun/angtype",this);
   angtypeCmd->SetGuidance("Sets angular source distribution type");
@@ -197,7 +197,7 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   angtypeCmd->SetParameterName("AngDis",true,true);
   angtypeCmd->SetDefaultValue("iso");
   angtypeCmd->SetCandidates("iso direction");
-  
+
   // energy distribution
   energytypeCmd = new G4UIcmdWithAString("/dmx/gun/energytype",this);
   energytypeCmd->SetGuidance("Sets energy distribution type");
@@ -214,7 +214,7 @@ DMXParticleSourceMessenger::DMXParticleSourceMessenger
   verbosityCmd->SetGuidance(" 2 : Detailed information");
   verbosityCmd->SetParameterName("level",false);
   verbosityCmd->SetRange("level>=0 && level <=2");
-  
+
 }
 
 
@@ -265,7 +265,7 @@ void DMXParticleSourceMessenger::SetNewValue
 
   else if(command == energytypeCmd)
     fParticleGun->SetEnergyDisType(newValues);
-  
+
   else if(command == verbosityCmd)
     fParticleGun->SetVerbosity(verbosityCmd->GetNewIntValue(newValues));
 
@@ -298,26 +298,26 @@ void DMXParticleSourceMessenger::SetNewValue
 	  fIonExciteEnergy = StoD(sQ) * keV;
 	}
       }
-      
+
       G4ParticleDefinition* ion;
       ion =  G4IonTable::GetIonTable()->GetIon(fAtomicNumber,fAtomicMass,fIonExciteEnergy);
       if (ion==0) {
 	G4cout << "Ion with Z=" << fAtomicNumber;
-	G4cout << " A=" << fAtomicMass << "is not be defined" << G4endl;    
+	G4cout << " A=" << fAtomicMass << "is not be defined" << G4endl;
       } else {
 	fParticleGun->SetParticleDefinition(ion);
 	fParticleGun->SetParticleCharge(fIonCharge*eplus);
       }
     } else {
       G4cout<<"Set /dmx/gun/particle to ion before using /dmx/gun/ion command";
-      G4cout<<G4endl; 
+      G4cout<<G4endl;
     }
   }
 
   else if( command==listCmd )
     particleTable->DumpTable();
 
-  else if( command==directionCmd ) { 
+  else if( command==directionCmd ) {
     fParticleGun->SetAngDistType("direction");
     fParticleGun->SetParticleMomentumDirection
       (directionCmd->GetNew3VectorValue(newValues));
@@ -326,10 +326,10 @@ void DMXParticleSourceMessenger::SetNewValue
   else if( command==energyCmd ) {
     fParticleGun->SetEnergyDisType("Mono");
     fParticleGun->SetMonoEnergy(energyCmd->GetNewDoubleValue(newValues));
-  }  
+  }
 
-  else if( command==positionCmd ) { 
-    fParticleGun->SetPosDisType("Point");    
+  else if( command==positionCmd ) {
+    fParticleGun->SetPosDisType("Point");
     fParticleGun->SetCentreCoords(positionCmd->GetNew3VectorValue(newValues));
   }
   else

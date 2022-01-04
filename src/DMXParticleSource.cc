@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 //
@@ -85,7 +85,7 @@ DMXParticleSource::DMXParticleSource() {
   Confine = false;
   VolName = "NULL";
 
-  AngDistType = "iso"; 
+  AngDistType = "iso";
   MinTheta = 0.;
   MaxTheta = pi;
   MinPhi = 0.;
@@ -106,7 +106,7 @@ DMXParticleSource::~DMXParticleSource()
   delete theMessenger;
 }
 
-void DMXParticleSource::SetPosDisType(G4String PosType) 
+void DMXParticleSource::SetPosDisType(G4String PosType)
 {
   SourcePosType = PosType;
 }
@@ -182,10 +182,10 @@ void DMXParticleSource::GeneratePointsInVolume()
 {
   G4ThreeVector RandPos;
   G4double x=0., y=0., z=0.;
-  
+
   if(SourcePosType != "Volume" && verbosityLevel >= 1)
     G4cout << "Error SourcePosType not Volume" << G4endl;
-  
+
   if(Shape == "Sphere") {
     x = Radius*2.;
     y = Radius*2.;
@@ -194,7 +194,7 @@ void DMXParticleSource::GeneratePointsInVolume()
       x = G4UniformRand();
       y = G4UniformRand();
       z = G4UniformRand();
-      
+
       x = (x*2.*Radius) - Radius;
       y = (y*2.*Radius) - Radius;
       z = (z*2.*Radius) - Radius;
@@ -213,7 +213,7 @@ void DMXParticleSource::GeneratePointsInVolume()
       z = (z*2.*halfz) - halfz;
     }
   }
-  
+
   else
     G4cout << "Error: Volume Shape Does Not Exist" << G4endl;
 
@@ -263,9 +263,9 @@ void DMXParticleSource::GenerateIsotropicFlux()
   costheta = std::cos(MinTheta) - rndm * (std::cos(MinTheta)
                                 - std::cos(MaxTheta));
   sintheta = std::sqrt(1. - costheta*costheta);
-  
+
   rndm2 = G4UniformRand();
-  Phi = MinPhi + (MaxPhi - MinPhi) * rndm2; 
+  Phi = MinPhi + (MaxPhi - MinPhi) * rndm2;
   sinphi = std::sin(Phi);
   cosphi = std::cos(Phi);
 
@@ -323,11 +323,11 @@ void DMXParticleSource::GeneratePrimaryVertex(G4Event *evt)
     G4cout << "No particle has been defined!" << G4endl;
     return;
   }
-  
+
   // Position
   G4bool srcconf = false;
   G4int LoopCount = 0;
-  
+
   while(srcconf == false)  {
     if(SourcePosType == "Point")
       GeneratePointSource();
@@ -345,7 +345,7 @@ void DMXParticleSource::GeneratePrimaryVertex(G4Event *evt)
     }
     else if(Confine == false)
       srcconf = true; // terminate loop
-    
+
     ++LoopCount;
     if(LoopCount == 100000) {
       G4cout << "*************************************" << G4endl;
@@ -373,9 +373,9 @@ void DMXParticleSource::GeneratePrimaryVertex(G4Event *evt)
     GenerateMonoEnergetic();
   else
     G4cout << "Error: EnergyDisType has unusual value" << G4endl;
-  
+
   // create a new vertex
-  G4PrimaryVertex* vertex = 
+  G4PrimaryVertex* vertex =
     new G4PrimaryVertex(particle_position,particle_time);
 
   if(verbosityLevel >= 2)
@@ -387,12 +387,12 @@ void DMXParticleSource::GeneratePrimaryVertex(G4Event *evt)
   G4double px = pmom*particle_momentum_direction.x();
   G4double py = pmom*particle_momentum_direction.y();
   G4double pz = pmom*particle_momentum_direction.z();
-  
+
   if(verbosityLevel >= 1){
-    G4cout << "Particle name: " 
-           << particle_definition->GetParticleName() << G4endl; 
+    G4cout << "Particle name: "
+           << particle_definition->GetParticleName() << G4endl;
     G4cout << "       Energy: "<<particle_energy << G4endl;
-    G4cout << "     Position: "<<particle_position<< G4endl; 
+    G4cout << "     Position: "<<particle_position<< G4endl;
     G4cout << "    Direction: "<<particle_momentum_direction << G4endl;
     G4cout << " NumberOfParticlesToBeGenerated: "
            << NumberOfParticlesToBeGenerated << G4endl;
@@ -410,5 +410,5 @@ void DMXParticleSource::GeneratePrimaryVertex(G4Event *evt)
   }
   evt->AddPrimaryVertex( vertex );
   if(verbosityLevel > 1)
-    G4cout << " Primary Vetex generated "<< G4endl;   
+    G4cout << " Primary Vetex generated "<< G4endl;
 }

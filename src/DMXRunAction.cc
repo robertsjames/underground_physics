@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // History:
@@ -76,11 +76,11 @@ DMXRunAction::~DMXRunAction()
 void DMXRunAction::BeginOfRunAction(const G4Run* aRun)
 {
   //Master mode or sequential
-  if (IsMaster())    
+  if (IsMaster())
     G4cout << "### Run " << aRun->GetRunID() << " starts (master)." << G4endl;
   else
     G4cout << "### Run " << aRun->GetRunID() << " starts (worker)." << G4endl;
-  
+
   // Book histograms and ntuples
   Book();
 
@@ -94,11 +94,11 @@ void DMXRunAction::EndOfRunAction(const G4Run*)
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void DMXRunAction::Book()
-{  
+{
   // Get/create analysis manager
   G4AnalysisManager* man = G4AnalysisManager::Instance();
   man->SetDefaultFileType("root");
-  
+
   // Open an output file
   man->OpenFile(savehistFile);
   man->SetFirstHistoId(1);
@@ -111,7 +111,7 @@ void DMXRunAction::Book()
   man->CreateNtupleDColumn("energy");
   man->FinishNtuple();
 
-  // ---- secondary ntuple ------   
+  // ---- secondary ntuple ------
   //id==2
   man->CreateNtuple("tree2", "Scintillation Hits Info");
   man->CreateNtupleDColumn("Event");
@@ -132,7 +132,7 @@ void DMXRunAction::Book()
   man->CreateNtupleDColumn("seed2");
   man->FinishNtuple();
 
-  // ---- tertiary ntuple ------   
+  // ---- tertiary ntuple ------
   //id==3
   man->CreateNtuple("tree3", "PMT Hits Info");
   man->CreateNtupleDColumn("event");
@@ -141,7 +141,7 @@ void DMXRunAction::Book()
   man->CreateNtupleDColumn("ypos");
   man->CreateNtupleDColumn("zpos");
   man->FinishNtuple();
- 
+
   // Creating 1-dimensional histograms
   man->CreateH1("h1","Source Energy /keV",  1000,0.,10000.);
   man->CreateH1("h2","Energy Deposit /keV", 1000,0.,1000.);
@@ -157,9 +157,9 @@ void DMXRunAction::Book()
   man->CreateH1("h12","Other Ener Deposit/keV", 1000,0.,1000.);
 
   //Creating 2-dimensional histograms
-  man->CreateH2("hh1","PMT Hit Pattern", 
+  man->CreateH2("hh1","PMT Hit Pattern",
 		300 ,-30.,30.,300,-30.,30.);
-  man->CreateH2("hh2","1st event PMT Hit Pattern", 
+  man->CreateH2("hh2","1st event PMT Hit Pattern",
 		300 ,-30.,30.,300,-30.,30.);
 
   return;
