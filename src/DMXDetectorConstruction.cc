@@ -192,10 +192,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   lab_vat->SetVisibility(false);
   lab_log->SetVisAttributes(lab_vat);
 
-// include room furniture: **************************************************
-
-#include "DMXDetectorRoom.icc"
-
   // Now start with detector assembly:
 
   // first LN2 cooling container: *******************************************
@@ -963,8 +959,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 					  theRoomTimeCut,   // Time cut
 					  theRoomMinEkine); // min energy
 
-#include "DMXDetectorRoomLimits.icc"
-
   theUserLimitsForDetector = new G4UserLimits(theDetectorStepSize,
 					      DBL_MAX, // Track Max
 					      theMaxTimeCuts,
@@ -1085,6 +1079,3 @@ void DMXDetectorConstruction::SetTimeCut(G4double val)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-
-
-

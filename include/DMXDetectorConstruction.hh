@@ -98,8 +98,6 @@ private:
   G4LogicalVolume*   world_log;        // pointers
   G4VPhysicalVolume* world_phys;
 
-#include "DMXDetectorRoom.ihh"
-
   G4LogicalVolume*   lab_log;
   G4VPhysicalVolume* lab_phys;
 
@@ -173,4 +171,3 @@ private:
 };
 
 #endif
-
