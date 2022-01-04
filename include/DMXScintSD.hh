@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // ScintSD (sensitive detector) header
@@ -54,7 +54,7 @@ class G4HCofThisEvent;
 class DMXScintSD : public G4VSensitiveDetector
 {
   public:
-  
+
      DMXScintSD(G4String);
      ~DMXScintSD();
 
@@ -64,10 +64,10 @@ class DMXScintSD : public G4VSensitiveDetector
         void clear();
         void DrawAll();
         void PrintAll();
-  
+
 private:
-  
-  DMXScintHitsCollection*  scintillatorCollection;      
+
+  DMXScintHitsCollection*  scintillatorCollection;
   G4int HitID;
 };
 

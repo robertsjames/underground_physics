@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // PmtHit (sensitive detector) header
@@ -48,7 +48,7 @@
 #include "G4ThreeVector.hh"
 
 
-class DMXPmtHit : public G4VHit 
+class DMXPmtHit : public G4VHit
 {
   public:
 

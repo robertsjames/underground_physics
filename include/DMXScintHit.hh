@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // DetectorConstruction header
@@ -66,7 +66,7 @@ class DMXScintHit : public G4VHit
       void Print();
 
   public:
-  
+
       void SetEdep           (G4double de)       { edep = de; };
       void SetPos            (G4ThreeVector xyz) { pos = xyz; };
       void SetParticle       (G4String name)     { particleName = name; };
@@ -74,11 +74,11 @@ class DMXScintHit : public G4VHit
       void SetTime           (G4double t2)       { time = t2; };
 
 
-      G4double GetEdep()                         { return edep; };      
+      G4double GetEdep()                         { return edep; };
       G4ThreeVector GetPos()                     { return pos; };
       G4String GetParticle()                     { return particleName;};
       G4double GetParticleEnergy()               { return particleEnergy;};
-      G4double GetTime()                         { return time; };      
+      G4double GetTime()                         { return time; };
 
 
   private:

@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // SpecialCuts header
@@ -47,9 +47,9 @@
 #include "G4VProcess.hh"
 
 
-class DMXSpecialCuts : public G4VProcess 
+class DMXSpecialCuts : public G4VProcess
 {
-  public:     
+  public:
 
      DMXSpecialCuts(const G4String& processName ="DMXSpecialCut" );
 
@@ -63,16 +63,16 @@ class DMXSpecialCuts : public G4VProcess
 
      virtual G4VParticleChange* PostStepDoIt(
 			     const G4Track& ,
-			     const G4Step& 
+			     const G4Step&
 			    );
-			    
+
      //  no operation in  AtRestGPIL
      virtual G4double AtRestGetPhysicalInteractionLength(
                              const G4Track& ,
-			     G4ForceCondition* 
+			     G4ForceCondition*
 			    ){ return -1.0; };
-			    
-     //  no operation in  AtRestDoIt      
+
+     //  no operation in  AtRestDoIt
      virtual G4VParticleChange* AtRestDoIt(
 			     const G4Track& ,
 			     const G4Step&
@@ -90,12 +90,12 @@ class DMXSpecialCuts : public G4VProcess
      //  no operation in  AlongStepDoIt
      virtual G4VParticleChange* AlongStepDoIt(
 			     const G4Track& ,
-			     const G4Step& 
+			     const G4Step&
 			    ) {return NULL;};
 
   private:
-  
-  // hide assignment operator as private 
+
+  // hide assignment operator as private
      DMXSpecialCuts& operator=(const DMXSpecialCuts&){return *this;};
 
 };

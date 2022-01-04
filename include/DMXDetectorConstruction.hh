@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // DetectorConstruction header
@@ -57,7 +57,7 @@ class DMXPmtSD;
 
 class DMXDetectorMessenger;
 
-class DMXDetectorConstruction : public G4VUserDetectorConstruction 
+class DMXDetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
 
@@ -73,21 +73,21 @@ public:
   void SetEnergyCut(G4double);
   void SetTimeCut(G4double);
   void SetRoomTimeCut(G4double);
- 
+
 private:
 
   void DefineMaterials();
 
-  G4UserLimits*    theUserLimitsForRoom; 
-  G4UserLimits*    theUserLimitsForDetector; 
-  //  G4UserLimits*    theUserLimitsForXenon; 
+  G4UserLimits*    theUserLimitsForRoom;
+  G4UserLimits*    theUserLimitsForDetector;
+  //  G4UserLimits*    theUserLimitsForXenon;
 
   G4double         theMaxTimeCuts;
   G4double         theMaxStepSize;
   G4double         theDetectorStepSize;
   G4double         theMinEkine;
   G4double         theRoomMinEkine;
-  
+
   G4double         theRoomTimeCut;
 
 
@@ -96,19 +96,19 @@ private:
   G4double sourceZ;
 
   G4LogicalVolume*   world_log;        // pointers
-  G4VPhysicalVolume* world_phys;  
+  G4VPhysicalVolume* world_phys;
 
 #include "DMXDetectorRoom.ihh"
 
   G4LogicalVolume*   lab_log;
-  G4VPhysicalVolume* lab_phys;  
+  G4VPhysicalVolume* lab_phys;
 
   G4LogicalVolume*   LN2jacket_log;
   G4VPhysicalVolume* LN2jacket_phys;
   G4LogicalVolume*   LN2vacuum_log;
   G4VPhysicalVolume* LN2vacuum_phys;
   G4LogicalVolume*   LN2vessel_log;
-  G4VPhysicalVolume* LN2vessel_phys;  
+  G4VPhysicalVolume* LN2vessel_phys;
   G4LogicalVolume*   LN2_log;
   G4VPhysicalVolume* LN2_phys;
   G4LogicalVolume*   jacket_log;
@@ -137,32 +137,32 @@ private:
   G4LogicalVolume*   pmtvesselbottom_log2;
   G4VPhysicalVolume* pmtvesselbottom_phys2;
   G4LogicalVolume*   GXe_log;
-  G4VPhysicalVolume* GXe_phys;  
+  G4VPhysicalVolume* GXe_phys;
   G4LogicalVolume*   gaslag_log;
-  G4VPhysicalVolume* gaslag_phys;  
-  G4LogicalVolume*   CuShield_log; 
-  G4VPhysicalVolume* CuShield_phys;  
-  G4LogicalVolume*   LXe_log; 
-  G4VPhysicalVolume* LXe_phys;  
-  G4LogicalVolume*   liqLag_log; 
-  G4VPhysicalVolume* liqLag_phys;  
-  G4LogicalVolume*   alpha_log;   
+  G4VPhysicalVolume* gaslag_phys;
+  G4LogicalVolume*   CuShield_log;
+  G4VPhysicalVolume* CuShield_phys;
+  G4LogicalVolume*   LXe_log;
+  G4VPhysicalVolume* LXe_phys;
+  G4LogicalVolume*   liqLag_log;
+  G4VPhysicalVolume* liqLag_phys;
+  G4LogicalVolume*   alpha_log;
   G4VPhysicalVolume* alpha_phys;
-  G4LogicalVolume*   americium_log;   
-  G4VPhysicalVolume* americium_phys; 
-  G4LogicalVolume*   ring_log;   
-  G4VPhysicalVolume* ring_phys_gas[2]; 
-  G4VPhysicalVolume* ring_phys_liq[6]; 
-  G4LogicalVolume*   mirror_log;   
-  G4VPhysicalVolume* mirror_phys; 
-  G4LogicalVolume*   grid1_log;   
-  G4VPhysicalVolume* grid1_phys; 
-  G4LogicalVolume*   grid2_log;   
-  G4VPhysicalVolume* grid2_phys; 
-  G4LogicalVolume*   pmt_log;   
-  G4VPhysicalVolume* pmt_phys; 
+  G4LogicalVolume*   americium_log;
+  G4VPhysicalVolume* americium_phys;
+  G4LogicalVolume*   ring_log;
+  G4VPhysicalVolume* ring_phys_gas[2];
+  G4VPhysicalVolume* ring_phys_liq[6];
+  G4LogicalVolume*   mirror_log;
+  G4VPhysicalVolume* mirror_phys;
+  G4LogicalVolume*   grid1_log;
+  G4VPhysicalVolume* grid1_phys;
+  G4LogicalVolume*   grid2_log;
+  G4VPhysicalVolume* grid2_phys;
+  G4LogicalVolume*   pmt_log;
+  G4VPhysicalVolume* pmt_phys;
   G4LogicalVolume*   phcath_log;
-  G4VPhysicalVolume* phcath_phys; 
+  G4VPhysicalVolume* phcath_phys;
 
   G4Cache<DMXScintSD*> LXeSD; //pointer to sensitive detectors
   G4Cache<DMXPmtSD*> pmtSD;

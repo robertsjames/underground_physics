@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // PrimaryGeneratorAction header
@@ -59,7 +59,7 @@ class DMXPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
    public:
       DMXPrimaryGeneratorAction();
       ~DMXPrimaryGeneratorAction();
-  
+
    public:
       void GeneratePrimaries(G4Event* anEvent);
 

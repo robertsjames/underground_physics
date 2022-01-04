@@ -41,10 +41,10 @@ public:
 
   DMXActionInitializer();
   ~DMXActionInitializer(){;};
-  
+
   void Build() const;
   void BuildForMaster() const;
-  
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

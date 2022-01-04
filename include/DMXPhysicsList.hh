@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // PhysicsList header
@@ -41,7 +41,7 @@
 //  History:
 //  -------
 //  5/12/05: AH - modified member functions for new hadronic constructor
-//  
+//
 //
 // --------------------------------------------------------------
 
@@ -67,7 +67,7 @@ protected:
   // Construct particle and physics
   virtual void ConstructParticle();
   virtual void ConstructProcess();
-    
+
   // these methods Construct physics processes and register them
   virtual void ConstructGeneral();
   virtual void ConstructEM();
@@ -85,7 +85,7 @@ private:
   G4double cutForElectron;
   G4double cutForPositron;
 
-  // these methods Construct particles 
+  // these methods Construct particles
   void ConstructMyBosons();
   void ConstructMyLeptons();
   void ConstructMyHadrons();

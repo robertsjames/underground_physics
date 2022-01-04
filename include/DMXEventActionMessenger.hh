@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // EventActionMessenger header
@@ -57,20 +57,20 @@ class DMXEventActionMessenger: public G4UImessenger {
   public:
     DMXEventActionMessenger(DMXEventAction*);
    ~DMXEventActionMessenger();
-    
+
   void SetNewValue(G4UIcommand*, G4String);
-    
+
   private:
-    DMXEventAction*     eventAction;   
-  
+    DMXEventAction*     eventAction;
+
     G4UIdirectory*        dmxDirectory;
     G4UIdirectory*        drawDirectory;
     G4UIcmdWithAString*   DrawTrksCmd;
     G4UIcmdWithAString*   DrawColsCmd;
-    G4UIcmdWithABool*     DrawHitsCmd;    
-    G4UIcmdWithABool*     SavePmtCmd;    
-    G4UIcmdWithABool*     SaveHitsCmd;    
-    G4UIcmdWithAnInteger* PrintCmd;    
+    G4UIcmdWithABool*     DrawHitsCmd;
+    G4UIcmdWithABool*     SavePmtCmd;
+    G4UIcmdWithABool*     SaveHitsCmd;
+    G4UIcmdWithAnInteger* PrintCmd;
 
 };
 

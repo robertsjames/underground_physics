@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // StackingActionMessenger header
@@ -54,7 +54,7 @@ class DMXStackingActionMessenger: public G4UImessenger {
   public:
     DMXStackingActionMessenger(DMXStackingAction*);
     ~DMXStackingActionMessenger();
-    
+
   public:
     void SetNewValue(G4UIcommand* , G4String);
 
@@ -63,7 +63,7 @@ class DMXStackingActionMessenger: public G4UImessenger {
 
   private:
     G4UIcmdWithABool* KillGammasCmd;
-    
+
 };
 
 #endif

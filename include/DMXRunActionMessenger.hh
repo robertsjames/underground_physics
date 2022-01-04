@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // RunActionMessenger header
@@ -56,9 +56,9 @@ class DMXRunActionMessenger: public G4UImessenger
   public:
     DMXRunActionMessenger(DMXRunAction*);
    ~DMXRunActionMessenger();
-    
+
     void SetNewValue(G4UIcommand*, G4String);
-    
+
   private:
     DMXRunAction*   DMXRun;
 

@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // SteppingActionMessenger header
@@ -55,12 +55,12 @@ class DMXSteppingActionMessenger: public G4UImessenger {
   public:
     DMXSteppingActionMessenger(DMXSteppingAction*);
    ~DMXSteppingActionMessenger();
-    
+
   void SetNewValue(G4UIcommand*, G4String);
 
   private:
-    DMXSteppingAction*  steppingAction;   
-  
+    DMXSteppingAction*  steppingAction;
+
     G4UIcmdWithAString*   colourNeutronCmd;
     G4UIcmdWithAString*   colourGammaCmd;
     G4UIcmdWithAString*   colourOpticalCmd;

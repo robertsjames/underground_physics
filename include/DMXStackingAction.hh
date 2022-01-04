@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // StackingAction header
@@ -67,7 +67,7 @@ class DMXStackingAction : public G4UserStackingAction {
   private:
     G4bool killGammasFlag;
 
-    G4Navigator* gNavigator; 
+    G4Navigator* gNavigator;
 
   public:
     inline void SetKillGammasFlag(G4bool val)     {killGammasFlag  = val;};

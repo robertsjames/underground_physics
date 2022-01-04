@@ -25,9 +25,9 @@
 //
 //
 //
-// 
+//
 // ------------------------------------------------------------
-//	GEANT 4 class header file 
+//	GEANT 4 class header file
 //
 // ------------------------------------------------------------
 //                  14 Aug. 1998  H.Kurashige
@@ -43,7 +43,7 @@
 
 class DMXMinEkineCuts : public DMXSpecialCuts
 {
-  public:     
+  public:
 
      DMXMinEkineCuts(const G4String& processName ="DMXMinEkineCuts" );
 
@@ -55,11 +55,11 @@ class DMXMinEkineCuts : public DMXSpecialCuts
 			     G4double   previousStepSize,
 			     G4ForceCondition* condition
 			    );
-            
-			    
+
+
   private:
-  
-  // hide assignment operator as private 
+
+  // hide assignment operator as private
       DMXMinEkineCuts(DMXMinEkineCuts&);
       DMXMinEkineCuts& operator=(const DMXMinEkineCuts& right);
 

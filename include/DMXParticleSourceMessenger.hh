@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // ParticleSourceMessenger header
@@ -67,18 +67,18 @@ class G4UIcmdWithoutParameter;
 
 
 class DMXParticleSourceMessenger: public G4UImessenger {
-  
+
    public:
      DMXParticleSourceMessenger(DMXParticleSource *fPtclGun);
      ~DMXParticleSourceMessenger();
-  
+
      void SetNewValue(G4UIcommand *command, G4String newValues);
- 
-  
+
+
    private:
      DMXParticleSource *fParticleGun;
      G4ParticleTable *particleTable;
-    
+
    private:
      G4UIdirectory              *gunDirectory;
 
@@ -87,7 +87,7 @@ class DMXParticleSourceMessenger: public G4UImessenger {
      G4UIcmdWith3VectorAndUnit  *centreCmd;
      G4UIcmdWithADoubleAndUnit  *halfzCmd;
      G4UIcmdWithADoubleAndUnit  *radiusCmd;
-     G4UIcmdWithAString         *confineCmd;         
+     G4UIcmdWithAString         *confineCmd;
      G4UIcmdWithAString         *angtypeCmd;
      G4UIcmdWithAString         *energytypeCmd;
      G4UIcmdWithAnInteger       *verbosityCmd;
@@ -100,12 +100,12 @@ class DMXParticleSourceMessenger: public G4UImessenger {
 
 
    private:
-     G4bool   fShootIon; 
+     G4bool   fShootIon;
      G4int    fAtomicNumber;
      G4int    fAtomicMass;
      G4int    fIonCharge;
      G4double fIonExciteEnergy;
-  
+
 };
 
 #endif

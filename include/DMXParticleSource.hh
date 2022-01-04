@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // ParticleSource header
@@ -58,13 +58,13 @@
 class DMXParticleSource : public G4VPrimaryGenerator {
 
    public:
-     DMXParticleSource (); 
+     DMXParticleSource ();
      ~DMXParticleSource ();
      void GeneratePrimaryVertex(G4Event *evt);
 
    public:
 
-     // position distribution  
+     // position distribution
      void SetPosDisType(G4String);
      void SetPosDisShape(G4String);
      void SetCentreCoords(G4ThreeVector);
@@ -74,13 +74,13 @@ class DMXParticleSource : public G4VPrimaryGenerator {
      void GeneratePointsInVolume();
      G4bool IsSourceConfined();
      void ConfineSourceToVolume(G4String);
-  
+
      // angular distribution
      void SetAngDistType(G4String);
      void SetParticleMomentumDirection(G4ParticleMomentum);
      void GenerateIsotropicFlux();
 
-     // energy distribution 
+     // energy distribution
      void SetEnergyDisType(G4String);
      void SetMonoEnergy(G4double);
      void GenerateMonoEnergetic();
@@ -88,12 +88,12 @@ class DMXParticleSource : public G4VPrimaryGenerator {
 
      // verbosity
      void SetVerbosity(G4int);
-  
+
      // particle properties
      void SetParticleDefinition(G4ParticleDefinition * aParticleDefinition);
      inline void SetParticleCharge(G4double aCharge)
         { particle_charge = aCharge; }
-  
+
    private:
 
      // position distribution
@@ -110,7 +110,7 @@ class DMXParticleSource : public G4VPrimaryGenerator {
      G4String EnergyDisType;
      G4double MonoEnergy;
 
-     // particle properties 
+     // particle properties
      G4int                  NumberOfParticlesToBeGenerated;
      G4ParticleDefinition*  particle_definition;
      G4ParticleMomentum     particle_momentum_direction;
@@ -124,11 +124,11 @@ class DMXParticleSource : public G4VPrimaryGenerator {
      G4int verbosityLevel;
 
    private:
-  
+
      DMXParticleSourceMessenger *theMessenger;
      G4Navigator *gNavigator;
 
-  
+
 };
 
 

@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // MaxTimeCuts header
@@ -49,7 +49,7 @@
 
 class DMXMaxTimeCuts : public DMXSpecialCuts
 {
-  public:     
+  public:
 
      DMXMaxTimeCuts(const G4String& processName ="DMXMaxTimeCuts" );
 
@@ -61,11 +61,11 @@ class DMXMaxTimeCuts : public DMXSpecialCuts
 			     G4double   previousStepSize,
 			     G4ForceCondition* condition
 			    );
-            
-			    
+
+
   private:
-  
-  // hide assignment operator as private 
+
+  // hide assignment operator as private
       DMXMaxTimeCuts(DMXMaxTimeCuts&);
       DMXMaxTimeCuts& operator=(const DMXMaxTimeCuts& right);
 

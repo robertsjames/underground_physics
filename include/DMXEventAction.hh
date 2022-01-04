@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // EventAction header
@@ -87,7 +87,7 @@ class DMXEventAction : public G4UserEventAction {
     G4double energy_pri;
 
     // hits collections
-    G4int scintillatorCollID;                
+    G4int scintillatorCollID;
     G4int pmtCollID;
     G4int S_hits;
     G4int P_hits;
@@ -116,10 +116,10 @@ class DMXEventAction : public G4UserEventAction {
     // messenger
     G4String drawTrksFlag;
     G4String drawColsFlag;
-    G4int drawHitsFlag;         
-    G4int savePmtFlag;         
-    G4int saveHitsFlag;         
-    G4int printModulo;                         
+    G4int drawHitsFlag;
+    G4int savePmtFlag;
+    G4int saveHitsFlag;
+    G4int printModulo;
     DMXEventActionMessenger*  eventMessenger;
 
     const DMXRunAction*    runAct;  //pointer to run action

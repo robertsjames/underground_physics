@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // SteppingActionMessenger header
@@ -57,12 +57,12 @@ class DMXDetectorMessenger: public G4UImessenger {
   public:
     DMXDetectorMessenger(DMXDetectorConstruction*);
    ~DMXDetectorMessenger();
-    
+
   void SetNewValue(G4UIcommand*, G4String);
 
   private:
-    DMXDetectorConstruction*  detectorConstruction;   
-  
+    DMXDetectorConstruction*  detectorConstruction;
+
     G4UIcmdWithADoubleAndUnit* RoomEKineCutCmd;
     G4UIcmdWithADoubleAndUnit* EKineCutCmd;
     G4UIcmdWithADoubleAndUnit* RoomTimeCutCmd;

@@ -33,7 +33,7 @@
 // Comments
 //
 //                  Underground Advanced
-//               by A. Howard and H. Araujo 
+//               by A. Howard and H. Araujo
 //                    (27th November 2001)
 //
 // PmtSD (sensitive detector) header
@@ -55,19 +55,19 @@ class G4HCofThisEvent;
 class DMXPmtSD : public G4VSensitiveDetector {
 
    public:
-  
+
      DMXPmtSD(G4String);
      ~DMXPmtSD();
-  
+
      void Initialize(G4HCofThisEvent*);
      G4bool ProcessHits(G4Step*,G4TouchableHistory*);
      void EndOfEvent(G4HCofThisEvent*);
      void clear();
      void DrawAll();
      void PrintAll();
-  
+
   private:
-  
+
      DMXPmtHitsCollection* pmtCollection;
      G4int HitID;
 };
