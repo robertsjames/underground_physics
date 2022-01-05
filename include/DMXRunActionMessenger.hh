@@ -63,9 +63,7 @@ class DMXRunActionMessenger: public G4UImessenger
     DMXRunAction*   DMXRun;
 
     G4UIcmdWithAString*   SaveHitsCmd;
-    G4UIcmdWithAString*   SavePmtCmd;
     G4UIcmdWithAString*   SaveHistFileCmd;
 };
 
 #endif
-

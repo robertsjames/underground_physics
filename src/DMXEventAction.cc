@@ -278,11 +278,6 @@ void DMXEventAction::writeScintHitsToFile()
 
       hitsfile = new std::ofstream;
       hitsfile->open(filename);
-      (*hitsfile) <<"Evt     Eprim   Etot    LXe     LXeTime PMT     PMTTime Seed1           Seed2           First   Flags"
-	       << G4endl;
-      (*hitsfile) <<"#       MeV     MeV     hits    ns      hits    ns                                      hit"
-	       << G4endl
-	       << G4endl;
     }
 
   if(S_hits) {
@@ -298,13 +293,6 @@ void DMXEventAction::writeScintHitsToFile()
 		  << energy_pri/MeV << "\t"
 		  << totEnergy/MeV << "\t"
 		  << S_hits  << "\t"
-		  << std::setiosflags(std::ios::scientific)
-		  << std::setprecision(2)
-		  << firstLXeHitTime/nanosecond << "\t"
-		  << std::setiosflags(std::ios::fixed)
-		  << std::setprecision(4)
-		  << *seeds     << "\t"
-		  << *(seeds+1) << "\t"
 		  << firstParticleName << "\t"
 		  << (gamma_ev    ? "gamma " : "")
 		  << (neutron_ev  ? "neutron " : "")
@@ -325,14 +313,7 @@ void DMXEventAction::writeScintHitsToFile()
     else if(firstParticleName == "positron") firstparticleIndex = 4;
     else{
       firstparticleIndex = 5;
-      man->FillH1(3,totEnergy);
     }
-
-    man->FillH1(1,energy_pri/keV);
-    man->FillH1(2,totEnergy/keV);
-
-    long seed1 = *seeds;
-    long seed2 = *(seeds+1);
 
     //Fill ntuple #2
     man->FillNtupleDColumn(2,0,event_id);
@@ -340,17 +321,13 @@ void DMXEventAction::writeScintHitsToFile()
     man->FillNtupleDColumn(2,2,totEnergy);
     man->FillNtupleDColumn(2,3,S_hits);
     man->FillNtupleDColumn(2,4,firstLXeHitTime);
-    man->FillNtupleDColumn(2,5,0);
-    man->FillNtupleDColumn(2,6,0.);
-    man->FillNtupleDColumn(2,7,firstparticleIndex);
-    man->FillNtupleDColumn(2,8,firstParticleE);
-    man->FillNtupleDColumn(2,9,gamma_ev);
-    man->FillNtupleDColumn(2,10,neutron_ev);
-    man->FillNtupleDColumn(2,11,positron_ev);
-    man->FillNtupleDColumn(2,12,electron_ev);
-    man->FillNtupleDColumn(2,13,other_ev);
-    man->FillNtupleDColumn(2,14,seed1);
-    man->FillNtupleDColumn(2,15,seed2);
+    man->FillNtupleDColumn(2,5,firstparticleIndex);
+    man->FillNtupleDColumn(2,6,firstParticleE);
+    man->FillNtupleDColumn(2,7,gamma_ev);
+    man->FillNtupleDColumn(2,8,neutron_ev);
+    man->FillNtupleDColumn(2,9,positron_ev);
+    man->FillNtupleDColumn(2,10,electron_ev);
+    man->FillNtupleDColumn(2,11,other_ev);
     man->AddNtupleRow(2);
 
   }

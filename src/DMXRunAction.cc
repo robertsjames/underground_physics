@@ -58,7 +58,6 @@ DMXRunAction::DMXRunAction()
 {
   runMessenger = new DMXRunActionMessenger(this);
   savehitsFile = "hits.out";
-  savepmtFile  = "pmt.out";
   savehistFile = "dmx";
 }
 
@@ -119,8 +118,6 @@ void DMXRunAction::Book()
   man->CreateNtupleDColumn("tot_e");
   man->CreateNtupleDColumn("s_hits");
   man->CreateNtupleDColumn("xe_time");
-  man->CreateNtupleDColumn("num_ph");
-  man->CreateNtupleDColumn("avphtime");
   man->CreateNtupleDColumn("firstpart");
   man->CreateNtupleDColumn("firstparte");
   man->CreateNtupleDColumn("gamma");
@@ -128,39 +125,7 @@ void DMXRunAction::Book()
   man->CreateNtupleDColumn("posi");
   man->CreateNtupleDColumn("elec");
   man->CreateNtupleDColumn("other");
-  man->CreateNtupleDColumn("seed1");
-  man->CreateNtupleDColumn("seed2");
   man->FinishNtuple();
-
-  // ---- tertiary ntuple ------
-  //id==3
-  man->CreateNtuple("tree3", "PMT Hits Info");
-  man->CreateNtupleDColumn("event");
-  man->CreateNtupleDColumn("hits");
-  man->CreateNtupleDColumn("xpos");
-  man->CreateNtupleDColumn("ypos");
-  man->CreateNtupleDColumn("zpos");
-  man->FinishNtuple();
-
-  // Creating 1-dimensional histograms
-  man->CreateH1("h1","Source Energy /keV",  1000,0.,10000.);
-  man->CreateH1("h2","Energy Deposit /keV", 1000,0.,1000.);
-  man->CreateH1("h3","Nuclear Recoil Edep /keV", 100,0.,100.);
-  man->CreateH1("h4","Number of Photons - LowE", 200,0.,200.);
-  man->CreateH1("h5","Number of Photons - HighE", 100,0.,10000.);
-  man->CreateH1("h6","Average Photon Arrival/ns", 200,0.,200.);
-  man->CreateH1("h7","1st event Photon Arrival", 200,0.,200.);
-  man->CreateH1("h8","Gamma Energy Deposit/keV", 1000,0.,1000.);
-  man->CreateH1("h9","Neutron Ener Deposit/keV", 1000,0.,1000.);
-  man->CreateH1("h10","Electron Ener Deposit/keV",1000,0.,1000.);
-  man->CreateH1("h11","Positron Ener Deposit/keV",1000,0.,1000.);
-  man->CreateH1("h12","Other Ener Deposit/keV", 1000,0.,1000.);
-
-  //Creating 2-dimensional histograms
-  man->CreateH2("hh1","PMT Hit Pattern",
-		300 ,-30.,30.,300,-30.,30.);
-  man->CreateH2("hh2","1st event PMT Hit Pattern",
-		300 ,-30.,30.,300,-30.,30.);
 
   return;
 

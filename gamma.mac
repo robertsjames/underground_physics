@@ -42,7 +42,6 @@
 /dmx/gun/confine americium_phys
 # 
 /dmx/hitsfile gamma.out
-/dmx/pmtfile gamma_pmt.out
 /dmx/histogramfile gamma
 #
 /run/beamOn 1

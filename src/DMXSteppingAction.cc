@@ -105,25 +105,6 @@ void DMXSteppingAction::UserSteppingAction(const G4Step* fStep)
   //  G4int StepNo = fStep->GetTrack()->GetCurrentStepNumber();
   //  if(StepNo >= MaxNoSteps) fStep->GetTrack()->SetTrackStatus(fStopAndKill);
 
-  G4int StepNo = fStep->GetTrack()->GetCurrentStepNumber();
-  if(StepNo == 1)
-    {
-      G4double partEnergy = fStep->GetPreStepPoint()->GetKineticEnergy();
-      G4ParticleDefinition* particleType = fStep->GetTrack()->GetDefinition();
-
-      G4AnalysisManager* man = G4AnalysisManager::Instance();
-      if (particleType == G4Gamma::Definition())
-	man->FillH1(8,partEnergy);
-      else if (particleType == G4Neutron::Definition())
-	man->FillH1(9,partEnergy);
-      else if (particleType == G4Electron::Definition())
-	man->FillH1(10,partEnergy);
-      else if (particleType == G4Positron::Definition())
-	man->FillH1(11,partEnergy);
-      else
-	man->FillH1(12,partEnergy);
-    }
-
 
   // check what is to be drawn from EventAction/EventActionMessenger
   G4String drawColsFlag = evtAction->GetDrawColsFlag();
@@ -186,5 +167,3 @@ void DMXSteppingAction::UserSteppingAction(const G4Step* fStep)
   }
 
 }
-
-

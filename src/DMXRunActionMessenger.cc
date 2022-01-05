@@ -61,12 +61,6 @@ DMXRunActionMessenger::DMXRunActionMessenger(DMXRunAction* run)
   SaveHitsCmd->SetParameterName("savehitsFile", false);
   SaveHitsCmd->SetDefaultValue("hits.out");
 
-  SavePmtCmd = new G4UIcmdWithAString("/dmx/pmtfile",this);
-  SavePmtCmd->SetGuidance("output file for pmt hits (txt)");
-  SavePmtCmd->SetGuidance("Default = pmt.out");
-  SavePmtCmd->SetParameterName("savepmtFile", false);
-  SavePmtCmd->SetDefaultValue("pmt.out");
-
   SaveHistFileCmd = new G4UIcmdWithAString("/dmx/histogramfile",this);
   SaveHistFileCmd->SetGuidance("output file for histograms");
   SaveHistFileCmd->SetGuidance("Default = dmx.his");
@@ -83,7 +77,6 @@ DMXRunActionMessenger::DMXRunActionMessenger(DMXRunAction* run)
 DMXRunActionMessenger::~DMXRunActionMessenger()
 {
   delete SaveHitsCmd;
-  delete SavePmtCmd;
   delete SaveHistFileCmd;
 }
 
@@ -94,9 +87,6 @@ void DMXRunActionMessenger::SetNewValue(G4UIcommand * command,G4String newValue)
   if(command == SaveHitsCmd)
     DMXRun->SetsavehitsFile(newValue);
 
-  if(command == SavePmtCmd)
-    DMXRun->SetsavepmtFile(newValue);
-
   if(command == SaveHistFileCmd)
     DMXRun->SetsavehistFile(newValue);
 
@@ -106,8 +96,3 @@ void DMXRunActionMessenger::SetNewValue(G4UIcommand * command,G4String newValue)
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-
-
-
-
-
