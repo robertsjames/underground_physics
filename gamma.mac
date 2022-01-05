@@ -16,10 +16,8 @@
 /dmx/draw/drawColours custom
 /dmx/draw/gammaColour yellow
 /dmx/draw/drawTracks all
-/dmx/draw/drawHits 1
 #
 # file output
-/dmx/savePmt  0
 /dmx/saveHits 1
 #
 # gun: particle
