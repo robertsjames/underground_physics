@@ -327,7 +327,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 
 
   // *********************************************************************
-  // grid#1 to mirror surface: 21.75 mm
   // LXe height = 15.75 mm, gXe height = 6.00 mm
   // NB: Increased liquid height by 1mm - to take away problem with
   // over-lapping volumes/ring pronounced from liquid phase..........
@@ -446,158 +445,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
 
 
 
-  // Cu Shield **********************************************************
-
-  G4double CuShieldOuterRadius = 3.0*cm;
-
-  // Cu shield surface
-  G4double sigalpha;
-
-  // rings ***************************************************************
-
-  G4double ringHeight      =  4.*mm;
-  G4double ringInnerRadius =  CuShieldOuterRadius;
-
-
-  // Mirror *************************************************************
-
-  G4double mirrorHeight    = 2.0*mm;
-  G4double mirrorRadius    = ringInnerRadius;
-  G4double mirrorVOffset   = 0.5*ringHeight;
-  G4double mirrorVPosition = -0.5*GXeHeight + gasGap +mirrorVOffset;
-
-  G4Tubs* mirror_tube = new G4Tubs("mirror_tube", 0.*cm, mirrorRadius,
-     0.5*mirrorHeight, 0.*deg, 360.*deg);
-  mirror_log  = new G4LogicalVolume(mirror_tube, mirror_mat, "mirror_log");
-  mirror_phys = new G4PVPlacement(0,
-     G4ThreeVector(0.*cm, 0.*cm, mirrorVPosition),
-     "mirror_phys", mirror_log, GXe_phys, false, 0);
-
-  G4VisAttributes* mirror_vat = new G4VisAttributes(cyan);
-  mirror_vat->SetVisibility(true);
-  //  mirror_vat->SetForceSolid(true);
-  mirror_log->SetVisAttributes(mirror_vat);
-
-
-  // mirror surface
-  G4OpticalSurface * OpMirrorSurface = new G4OpticalSurface
-    ("MirrorSurface", unified, ground, dielectric_metal, sigalpha=5.0*deg);
-  //G4LogicalBorderSurface* MirrorSurface =
-  new G4LogicalBorderSurface
-    ("Mirror", GXe_phys, mirror_phys, OpMirrorSurface);
-
-  std::vector<G4double> mirror_PP   = { 6.00*eV, 7.50*eV };
-  std::vector<G4double> mirror_REFL = { 0.83, 0.78 };
-  G4MaterialPropertiesTable *mirror_mt = new G4MaterialPropertiesTable();
-  mirror_mt->AddProperty("REFLECTIVITY", mirror_PP, mirror_REFL);
-  OpMirrorSurface->SetMaterialPropertiesTable(mirror_mt);
-
-  // Grids  *************************************************************
-
-  G4double gridHeight     = 0.100*mm;
-  G4double gridRadius     = ringInnerRadius;
-  G4double grid1VOffset   = 3.5*ringHeight+1.75*mm;
-  G4double grid1VPosition = 0.5*LXeTubeHeight - grid1VOffset;
-  G4double grid2VOffset   = 4.5*ringHeight+3.50*mm;
-  G4double grid2VPosition = 0.5*LXeTubeHeight - grid2VOffset;
-
-  G4Tubs* grid_tube = new G4Tubs("grid_tube", 0.*cm, gridRadius,
-     0.5*gridHeight, 0.*deg, 360.*deg);
-
-  grid1_log  = new G4LogicalVolume(grid_tube, grid_mat, "grid1_log");
-  grid1_phys = new G4PVPlacement(0,G4ThreeVector(0.*cm, 0.*cm, grid1VPosition),
-     "grid1_phys", grid1_log, LXe_phys, false, 0);
-  grid2_log  = new G4LogicalVolume(grid_tube, grid_mat, "grid2_log");
-  grid2_phys = new G4PVPlacement(0,G4ThreeVector(0.*cm, 0.*cm, grid2VPosition),
-     "grid2_phys", grid2_log, LXe_phys, false, 0);
-
-  G4VisAttributes* grid_vat = new G4VisAttributes(red);
-  grid_vat->SetVisibility(true);
-  grid1_log->SetVisAttributes(grid_vat);
-  grid2_log->SetVisAttributes(grid_vat);
-
-
-  // alpha source holder ************************************************
-
-  G4double alphaHeight     = 0.7*mm; // total lead thickness = 1.23 mm
-  G4double recessHeight    = 0.3*mm;  // totals lead thickness = 1.23 mm
-  G4double alphaRadius     = 1.2*mm; // was 0.8
-  G4double recessRadius    = 0.35*mm; // was 0.5 was 0.2
-  G4double recessVPosition = 0.5*(alphaHeight - recessHeight);
-
-  G4double alphaVOffset    = grid1VOffset-0.5*alphaHeight - gridHeight;
-  G4double americiumHeight = 3000.*nanometer; // assumes ~1% Am
-  G4double extra_offset    = (recessHeight +0.3*mm + 0.5*americiumHeight);
-  G4double alphaVPosition  = 0.5*LXeTubeHeight - alphaVOffset + extra_offset;
-
-  G4Tubs* alpha_tube  = new G4Tubs("alpha_tube", 0.*cm, alphaRadius,
-     0.5*alphaHeight,  0.*deg, 360.*deg);
-  G4Tubs* recess_tube = new G4Tubs("recess_tube", 0.*cm, recessRadius,
-     0.5*recessHeight, 0.*deg, 360.*deg);
-
-  G4SubtractionSolid* alpha_sol = new G4SubtractionSolid
-    ("alpha_sol", alpha_tube, recess_tube, G4Transform3D
-     (G4RotationMatrix(), G4ThreeVector(0. ,0. , recessVPosition)));
-  alpha_log  = new G4LogicalVolume(alpha_sol, alpha_mat, "alpha_log");
-
-  alpha_phys = new G4PVPlacement(0, G4ThreeVector(0., 0., alphaVPosition),
-                         "alpha_phys", alpha_log, LXe_phys, false, 0);
-
-  G4VisAttributes* alpha_vat = new G4VisAttributes(white);
-  alpha_vat->SetVisibility(true);
-  alpha_log ->SetVisAttributes(alpha_vat);
-
-  // alpha source HOLDER surface
-  G4OpticalSurface* OpAlphaSurface = new G4OpticalSurface("AlphaSurface",
-  unified, ground, dielectric_metal, sigalpha=20.0*deg);
-  //G4LogicalBorderSurface* AlphaSurface =
-  new G4LogicalBorderSurface
-    ("Alpha", LXe_phys, alpha_phys, OpAlphaSurface);
-
-  std::vector<G4double> alpha_PP   = { 6.00*eV, 7.50*eV };
-  std::vector<G4double> alpha_REFL = { 0.05, 0.05 };
-  G4MaterialPropertiesTable *alpha_mt = new G4MaterialPropertiesTable();
-  alpha_mt->AddProperty("REFLECTIVITY", alpha_PP, alpha_REFL);
-  OpAlphaSurface->SetMaterialPropertiesTable(alpha_mt);
-
-  // americium ***********************************************************
-
-  // moved above for the "extra_offset":
-  // G4double americiumHeight    = 600.*nanometer; // assumes ~1% Am
-  G4double americiumRadius    = recessRadius - 50.0*micrometer;
-  G4double americiumVOffset   = 0.5*(alphaHeight-americiumHeight)-recessHeight;
-  G4double americiumVPosition = americiumVOffset;
-
-  sourceZ = vesselVPos + LXeVPos + alphaVPosition + americiumVPosition + PosZ;
-  G4cout << G4endl << "Calibration source centre (X,Y,Z):  0, 0, "
-	 << sourceZ/mm << " mm" << G4endl;
-
-  G4Tubs* americium_tube = new G4Tubs("americium_tube", 0.*cm,
-     americiumRadius, 0.5*americiumHeight, 0.*deg, 360.*deg);
-  americium_log  = new G4LogicalVolume(americium_tube, americium_mat,
-     "americium_log");
-  americium_phys = new G4PVPlacement(0, G4ThreeVector(0., 0.,
-     americiumVPosition),"americium_phys", americium_log, alpha_phys,false,0);
-
-  // americium optical properties:
-  G4OpticalSurface* OpAmericiumSurface = new G4OpticalSurface
-    ("AmericiumSurface", unified, ground, dielectric_metal, sigalpha=5.0*deg);
-  //G4LogicalBorderSurface* AmericiumSurface =
-  new G4LogicalBorderSurface
-    ("Americium", LXe_phys, americium_phys, OpAmericiumSurface);
-
-  std::vector<G4double> americium_PP   = { 6.00*eV, 7.50*eV };
-  std::vector<G4double> americium_REFL = { 0.7, 0.65 };
-  G4MaterialPropertiesTable *americium_mt = new G4MaterialPropertiesTable();
-  americium_mt->AddProperty("REFLECTIVITY", americium_PP, americium_REFL);
-  OpAlphaSurface->SetMaterialPropertiesTable(americium_mt);
-
-  G4VisAttributes* americium_vat= new G4VisAttributes(cyan);
-  americium_vat->SetVisibility(true);
-  americium_vat->SetForceSolid(true);
-  americium_log->SetVisAttributes(americium_vat);
-
-
   // ......................................................................
   // attach user limits ...................................................
 
@@ -635,11 +482,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
         GXe_log->SetUserLimits(theUserLimitsForDetector);
 	//        LXe_log->SetUserLimits(theUserLimitsForXenon);
         LXe_log->SetUserLimits(theUserLimitsForDetector);
-     mirror_log->SetUserLimits(theUserLimitsForDetector);
-      grid1_log->SetUserLimits(theUserLimitsForDetector);
-      grid2_log->SetUserLimits(theUserLimitsForDetector);
-      alpha_log->SetUserLimits(theUserLimitsForDetector);
-  americium_log->SetUserLimits(theUserLimitsForDetector);
 
  return world_phys;
 

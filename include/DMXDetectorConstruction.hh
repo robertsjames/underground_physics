@@ -92,8 +92,6 @@ private:
 
 #include "DMXDetectorMaterial.ihh"  // materials used
 
-  G4double sourceZ;
-
   G4LogicalVolume*   world_log;        // pointers
   G4VPhysicalVolume* world_phys;
 
@@ -125,16 +123,6 @@ private:
   G4VPhysicalVolume* LXe_phys;
   G4LogicalVolume*   liqLag_log;
   G4VPhysicalVolume* liqLag_phys;
-  G4LogicalVolume*   alpha_log;
-  G4VPhysicalVolume* alpha_phys;
-  G4LogicalVolume*   americium_log;
-  G4VPhysicalVolume* americium_phys;
-  G4LogicalVolume*   mirror_log;
-  G4VPhysicalVolume* mirror_phys;
-  G4LogicalVolume*   grid1_log;
-  G4VPhysicalVolume* grid1_phys;
-  G4LogicalVolume*   grid2_log;
-  G4VPhysicalVolume* grid2_phys;
 
   G4Cache<DMXScintSD*> LXeSD; //pointer to sensitive detector
 
