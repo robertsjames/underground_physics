@@ -97,7 +97,7 @@ void DMXRunAction::Book()
 {
   // Get/create analysis manager
   G4AnalysisManager* man = G4AnalysisManager::Instance();
-  man->SetDefaultFileType("root");
+  man->SetDefaultFileType("xml");
 
   // Open an output file
   man->OpenFile(savehistFile);
@@ -165,5 +165,3 @@ void DMXRunAction::Book()
   return;
 
 }
-
-
