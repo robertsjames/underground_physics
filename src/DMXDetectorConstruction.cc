@@ -264,7 +264,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   G4double vesselRadius          = 75.0*mm + vesselMetalThick;
   G4double vesselflangeRadius    = 101.5*mm;
   G4double vesselflangeThick     = 40.0*mm;
-  G4double PMTvesselRadius       = 31.0*mm + vesselMetalThick;
   G4double PMTvesselHeight       = 152.0*mm;
   G4double vesselVPos            = 7.0*cm;
   G4double TotalvesselHeight     = PMTvesselHeight + vesselHeight;
@@ -307,7 +306,7 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
      "vesselbottom_phys1", vesselbottom_log1, vacuum_phys, false,0);
 
   G4Tubs* vesselbottom_flange2 = new G4Tubs
-    ("vesselbottom_flange2",PMTvesselRadius, vesselflangeRadius,
+    ("vesselbottom_flange2",0.*cm, vesselflangeRadius,
      0.25*vesselflangeThick, 0.*deg, 360.*deg);
   vesselbottom_log2  = new G4LogicalVolume
     (vesselbottom_flange2, vessel_mat, "vesselbottom_log2");
