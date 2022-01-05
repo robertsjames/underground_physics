@@ -43,7 +43,6 @@
 #include "DMXDetectorMessenger.hh"
 
 #include "DMXScintSD.hh"
-#include "DMXPmtSD.hh"
 
 
 #include "G4Material.hh"
@@ -103,7 +102,6 @@ DMXDetectorConstruction::DMXDetectorConstruction()
 
   //Zero the G4Cache objects to contain logical volumes
   LXeSD.Put(0);
-  pmtSD.Put(0);
 }
 
 
@@ -268,22 +266,13 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   G4double vesselflangeThick     = 40.0*mm;
   G4double PMTvesselRadius       = 31.0*mm + vesselMetalThick;
   G4double PMTvesselHeight       = 152.0*mm;
-  G4double pmtvesselflangeRadius = 52.0*mm;
-  G4double pmtvesselflangeThick  = 32.0*mm;
   G4double vesselVPos            = 7.0*cm;
   G4double TotalvesselHeight     = PMTvesselHeight + vesselHeight;
 
   G4Tubs* vessel_tube    = new G4Tubs("vessel_tube",
      0.*cm, vesselRadius, 0.5*vesselHeight, 0.*deg, 360.*deg);
-  G4Tubs* PMTvessel_tube = new G4Tubs("PMTvessel_tube",
-     0.*cm, PMTvesselRadius, 0.5*PMTvesselHeight, 0.*deg, 360.*deg);
 
-  G4UnionSolid* vessel_sol = new G4UnionSolid
-    ("vessel_sol", vessel_tube, PMTvessel_tube,
-     G4Transform3D(G4RotationMatrix(),
-		   G4ThreeVector(0,0,-0.5*(vesselHeight+PMTvesselHeight))));
-
-  vessel_log  = new G4LogicalVolume(vessel_sol, vessel_mat, "vessel_log");
+  vessel_log  = new G4LogicalVolume(vessel_tube, vessel_mat, "vessel_log");
   vessel_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,vesselVPos),
      "vessel_phys", vessel_log, vacuum_phys, false,0);
 
@@ -327,40 +316,14 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
      "vesselbottom_phys2", vesselbottom_log2, vacuum_phys, false,0);
 
 
-  G4Tubs* pmtvesselbottom_flange1 = new G4Tubs
-    ("pmtvesselbottom_flange1", PMTvesselRadius, pmtvesselflangeRadius,
-     0.25*pmtvesselflangeThick, 0.*deg, 360.*deg);
-  pmtvesselbottom_log1  = new G4LogicalVolume
-    (pmtvesselbottom_flange1, vessel_mat, "pmtvesselbottom_log1");
-  pmtvesselbottom_phys1 = new G4PVPlacement(0, G4ThreeVector(0.,0.,
-    (-0.5*vesselHeight-PMTvesselHeight+vesselVPos+0.25*pmtvesselflangeThick)),
-     "pmtvesselbottom_phys1", pmtvesselbottom_log1, vacuum_phys, false,0);
-
-  G4Tubs* pmtvesselbottom_flange2 = new G4Tubs
-    ("pmtvesselbottom_flange2", 0.*cm, pmtvesselflangeRadius,
-     0.25*pmtvesselflangeThick, 0.*deg, 360.*deg);
-  pmtvesselbottom_log2  = new G4LogicalVolume
-    (pmtvesselbottom_flange2, vessel_mat, "pmtvesselbottom_log2");
-  pmtvesselbottom_phys2 = new G4PVPlacement(0, G4ThreeVector(0.,0.,
-     -0.5*vesselHeight-PMTvesselHeight+vesselVPos-0.25*pmtvesselflangeThick),
-     "pmtvesselbottom_phys2", pmtvesselbottom_log2, vacuum_phys, false,0);
-
-
   G4VisAttributes* vessel_vat     = new G4VisAttributes(grey);
-  G4VisAttributes* pmtvessel_vat  = new G4VisAttributes(yellow);
-  G4VisAttributes* pmtvessel_vat2 = new G4VisAttributes(green);
   //  vessel_log->SetVisAttributes(G4VisAttributes::GetInvisible());
    vessel_vat->SetForceSolid(true);
-  //  pmtvessel_vat->SetForceSolid(true);
-  //  pmtvessel_vat2->SetForceSolid(true);
   vessel_log->SetVisAttributes(vessel_vat);
   vesseltop_log1->SetVisAttributes(vessel_vat);
   vesselbottom_log1->SetVisAttributes(vessel_vat);
-  vesseltop_log2->SetVisAttributes(pmtvessel_vat);
-  vesselbottom_log2->SetVisAttributes(pmtvessel_vat);
-  //  pmtvesselbottom_log->SetVisAttributes(vessel_vat);
-  pmtvesselbottom_log1->SetVisAttributes(vessel_vat);
-  pmtvesselbottom_log2->SetVisAttributes(pmtvessel_vat2);
+  vesseltop_log2->SetVisAttributes(vessel_vat);
+  vesselbottom_log2->SetVisAttributes(vessel_vat);
 
 
 
@@ -394,22 +357,13 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   // liquid phase *******************************************************
 
   G4double LXeHeight         = mirrorVPos - gasGap;
-  G4double PMTDetectorRadius = PMTvesselRadius - vesselMetalThick;
-  G4double PMTDetectorHeight = PMTvesselHeight;
-  G4double LXeTubeHeight     = LXeHeight - PMTDetectorHeight;
-  G4double LXe_solVPos       = -0.5*(LXeTubeHeight+PMTDetectorHeight);
+  G4double LXeTubeHeight     = LXeHeight - PMTvesselHeight;
   G4double LXeVPos           = -0.5*TotalvesselHeight + 0.5*LXeHeight;
 
   G4Tubs* LXe_tube = new G4Tubs("GXe_tube",
      0.*cm, DetectorRadius, 0.5*LXeTubeHeight, 0.*deg, 360.*deg);
-  G4Tubs* PMTdetector_tube = new G4Tubs("PMTdetector_tube",
-   0.*cm, PMTDetectorRadius, 0.5*PMTDetectorHeight, 0.*deg, 360.*deg);
 
-  G4UnionSolid* LXe_sol = new G4UnionSolid
-    ("LXe_sol", LXe_tube, PMTdetector_tube,
-    G4Transform3D(G4RotationMatrix(), G4ThreeVector(0,0,LXe_solVPos)));
-
-  LXe_log  = new G4LogicalVolume(LXe_sol, LXe_mat, "LXe_log");
+  LXe_log  = new G4LogicalVolume(LXe_tube, LXe_mat, "LXe_log");
   LXe_phys = new G4PVPlacement(0, G4ThreeVector(0.*cm, 0.*cm, LXeVPos),
     "LXe_phys", LXe_log, vessel_phys, false, 0);
 
@@ -441,20 +395,12 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   // liquid phase vessel lagging - for optical properties:
 
   G4double lagTubeRadius = DetectorRadius - laggingThickness;
-  G4double lagTubeHeight = LXeHeight - PMTDetectorHeight;
-  G4double lagPMTRadius  = PMTDetectorRadius - laggingThickness;
-  G4double lagPMTHeight  = PMTDetectorHeight;
+  G4double lagTubeHeight = LXeHeight - PMTvesselHeight;
 
   G4Tubs* liqLag_tube = new G4Tubs("liqlag_tube", lagTubeRadius,
      DetectorRadius, 0.5*lagTubeHeight, 0.*deg, 360.*deg);
-  G4Tubs* lagPMT_tube = new G4Tubs("lagPMT_tube", lagPMTRadius,
-     PMTDetectorRadius, 0.5*lagPMTHeight, 0.*deg, 360.*deg);
 
-  G4UnionSolid* liqLag_sol = new G4UnionSolid
-    ("liqLag_sol", liqLag_tube, lagPMT_tube,
-    G4Transform3D(G4RotationMatrix(),G4ThreeVector(0,0,LXe_solVPos)));
-
-  liqLag_log  = new G4LogicalVolume(liqLag_sol, vessel_mat, "liqLag_log");
+  liqLag_log  = new G4LogicalVolume(liqLag_tube, vessel_mat, "liqLag_log");
   liqLag_phys = new G4PVPlacement(0, G4ThreeVector(0.*cm, 0.*cm, 0.*cm),
     "liqLag_phys", liqLag_log, LXe_phys, false, 0);
 
@@ -653,84 +599,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
   americium_log->SetVisAttributes(americium_vat);
 
 
-  // Photomultiplier: ETL 9829 QA ****************************************
-
-  G4double pmtHeight    = 12.0*cm;
-  G4double pmtRadius    = 2.6*cm;
-  G4double pmtVOffset   = 1.0*cm;
-  G4double pmtVPosition = -0.5*(LXeTubeHeight+pmtHeight)+pmtVOffset;
-
-  G4Sphere* pmt_window = new G4Sphere("pmt_sphere", 0.*cm, 2.*pmtRadius,
-     0.*deg, 360.*deg, 0.*deg, 30.0*deg);
-  G4Tubs* pmt_tube = new G4Tubs("pmt_tube", 0.*cm,  pmtRadius, 0.5*pmtHeight,
-     0.*deg, 360.*deg);
-
-  G4UnionSolid* pmt_sol = new G4UnionSolid("pmt_sol", pmt_tube, pmt_window,
-    G4Transform3D(G4RotationMatrix(), G4ThreeVector(0,0,0.5*pmtHeight
-    -2.*pmtRadius*std::cos(30.0*deg))));
-
-  pmt_log  = new G4LogicalVolume(pmt_sol, pmt_mat, "pmt_log");
-  pmt_phys = new G4PVPlacement(0,G4ThreeVector(0.*cm, 0.*cm, pmtVPosition),
-     "pmt_phys", pmt_log, LXe_phys, false, 0);
-
-  G4OpticalSurface* pmt_opsurf = new G4OpticalSurface
-    ("pmt_opsurf",unified, polished, dielectric_dielectric);
-  //G4LogicalBorderSurface* pmt_surf =
-  new G4LogicalBorderSurface
-    ("pmt_surf", LXe_phys, pmt_phys, pmt_opsurf);
-
-  G4VisAttributes* pmt_vat= new G4VisAttributes(blue);
-  pmt_vat->SetForceSolid(true);
-  pmt_vat->SetVisibility(true);
-  pmt_log->SetVisAttributes(pmt_vat);
-
-
-  // photocathode *******************************************************
-
-  G4double phcathVOffset     = 0.5*pmtHeight-2.*pmtRadius*std::cos(30.0*deg);
-  G4double phcathVPosition   = phcathVOffset;
-
-  G4Sphere* phcath_sol = new G4Sphere("phcath_sphere",
-     2.*pmtRadius-1.6*mm, 2.*pmtRadius-1.59*mm, 0.*deg, 360.*deg, 0.*deg,
-     27.0*deg);
-
-  phcath_log  = new G4LogicalVolume(phcath_sol, phcath_mat, "phcath_log");
-  phcath_phys = new G4PVPlacement(0, G4ThreeVector(0., 0., phcathVPosition),
-     "phcath_phys", phcath_log, pmt_phys, false, 0);
-
-  G4OpticalSurface*  phcath_opsurf = new G4OpticalSurface("phcath_opsurf",
-     unified, polished, dielectric_dielectric);
-  //G4LogicalBorderSurface* phcath_surf =
-  new G4LogicalBorderSurface
-    ("phcath_surf", pmt_phys, phcath_phys, phcath_opsurf);
-
-  std::vector<G4double> phcath_PP   = { 6.00*eV, 7.50*eV };
-  // std::vector<G4double> phcath_REFL = { 0.0, 0.0};
-  // G4MaterialPropertiesTable* phcath_mt = new G4MaterialPropertiesTable();
-  // phcath_mt->AddProperty("REFLECTIVITY", phcath_PP, phcath_REFL);
-  // phcath_opsurf->SetMaterialPropertiesTable(phcath_mt);
-
-
-  //**Photocathode surface properties
-  std::vector<G4double> photocath_EFF={1.,1.}; //Enables 'detection' of photons
-  std::vector<G4double> photocath_ReR={1.92,1.92};
-  std::vector<G4double> photocath_ImR={1.69,1.69};
-  G4MaterialPropertiesTable* photocath_mt = new G4MaterialPropertiesTable();
-  photocath_mt->AddProperty("EFFICIENCY",phcath_PP,photocath_EFF);
-  photocath_mt->AddProperty("REALRINDEX",phcath_PP,photocath_ReR);
-  photocath_mt->AddProperty("IMAGINARYRINDEX",phcath_PP,photocath_ImR);
-  G4OpticalSurface* photocath_opsurf=
-    new G4OpticalSurface("photocath_opsurf",glisur,polished,
-                         dielectric_metal);
-  photocath_opsurf->SetMaterialPropertiesTable(photocath_mt);
-
-  G4VisAttributes* phcath_vat= new G4VisAttributes(lblue);
-  phcath_vat->SetForceSolid(true);
-  phcath_vat->SetVisibility(true);
-  phcath_log->SetVisAttributes(phcath_vat);
-
-  new G4LogicalSkinSurface("photocath_surf",phcath_log,photocath_opsurf);
-
   // ......................................................................
   // attach user limits ...................................................
 
@@ -773,8 +641,6 @@ G4VPhysicalVolume* DMXDetectorConstruction::Construct() {
       grid2_log->SetUserLimits(theUserLimitsForDetector);
       alpha_log->SetUserLimits(theUserLimitsForDetector);
   americium_log->SetUserLimits(theUserLimitsForDetector);
-        pmt_log->SetUserLimits(theUserLimitsForDetector);
-     phcath_log->SetUserLimits(theUserLimitsForDetector);
 
  return world_phys;
 
@@ -797,16 +663,6 @@ void DMXDetectorConstruction::ConstructSDandField()
   G4SDManager::GetSDMpointer()->AddNewDetector(LXeSD.Get());
   if (LXe_log)
     SetSensitiveDetector(LXe_log,LXeSD.Get());
-
-  if (pmtSD.Get() == 0)
-    {
-      G4String name="/DMXDet/pmtSD";
-      DMXPmtSD* aSD = new DMXPmtSD(name);
-      pmtSD.Put(aSD);
-    }
-  G4SDManager::GetSDMpointer()->AddNewDetector(pmtSD.Get());
-  if (phcath_log)
-    SetSensitiveDetector(phcath_log,pmtSD.Get());
 
   return;
 }

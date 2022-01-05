@@ -47,7 +47,6 @@
 #include "G4ios.hh"
 
 #include "DMXScintHit.hh"
-#include "DMXPmtHit.hh"
 
 class DMXRunAction;
 class DMXPrimaryGeneratorAction;
@@ -65,7 +64,6 @@ class DMXEventAction : public G4UserEventAction {
 
   private:
     void writeScintHitsToFile();
-    void writePmtHitsToFile(const DMXPmtHitsCollection*);
     void drawTracks(const G4Event*);
 
   public:
@@ -75,8 +73,6 @@ class DMXEventAction : public G4UserEventAction {
     void SetDrawColsFlag (G4String val)     {drawColsFlag    = val;};
     G4String GetDrawColsFlag() const  {return drawColsFlag;};
 
-    void SetDrawHitsFlag (G4int val)        {drawHitsFlag    = val;};
-    void SetSavePmtFlag  (G4int val)        {savePmtFlag     = val;};
     void SetSaveHitsFlag (G4int val)        {saveHitsFlag    = val;};
     void SetPrintModulo  (G4int val)        {printModulo     = val;};
 
@@ -88,12 +84,9 @@ class DMXEventAction : public G4UserEventAction {
 
     // hits collections
     G4int scintillatorCollID;
-    G4int pmtCollID;
     G4int S_hits;
-    G4int P_hits;
 
     // event summary
-    G4double aveTimePmtHits;
     G4double totEnergy;
     G4double totEnergyGammas;
     G4double totEnergyNeutrons;
@@ -116,8 +109,6 @@ class DMXEventAction : public G4UserEventAction {
     // messenger
     G4String drawTrksFlag;
     G4String drawColsFlag;
-    G4int drawHitsFlag;
-    G4int savePmtFlag;
     G4int saveHitsFlag;
     G4int printModulo;
     DMXEventActionMessenger*  eventMessenger;
@@ -125,8 +116,6 @@ class DMXEventAction : public G4UserEventAction {
     const DMXRunAction*    runAct;  //pointer to run action
     const DMXPrimaryGeneratorAction* genAction; // pointer to particle generator
   std::ofstream *hitsfile;
-  std::ofstream *pmtfile;
 };
 
 #endif
-

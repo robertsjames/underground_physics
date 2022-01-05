@@ -67,8 +67,6 @@ class DMXEventActionMessenger: public G4UImessenger {
     G4UIdirectory*        drawDirectory;
     G4UIcmdWithAString*   DrawTrksCmd;
     G4UIcmdWithAString*   DrawColsCmd;
-    G4UIcmdWithABool*     DrawHitsCmd;
-    G4UIcmdWithABool*     SavePmtCmd;
     G4UIcmdWithABool*     SaveHitsCmd;
     G4UIcmdWithAnInteger* PrintCmd;
 

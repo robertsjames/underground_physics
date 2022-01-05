@@ -60,12 +60,6 @@ DMXEventActionMessenger::DMXEventActionMessenger(DMXEventAction* EvAct)
   dmxDirectory = new G4UIdirectory("/dmx/");
   dmxDirectory->SetGuidance("DM Example commands.");
 
-  SavePmtCmd = new G4UIcmdWithABool("/dmx/savePmt",this);
-  SavePmtCmd->SetGuidance("Set flag to save (x,y,z) of hits in PMT");
-  SavePmtCmd->SetGuidance("into file 'pmt.out'");
-  SavePmtCmd->SetGuidance("Default = false");
-  SavePmtCmd->SetParameterName("savePmtFlag", false);
-
   SaveHitsCmd = new G4UIcmdWithABool("/dmx/saveHits",this);
   SaveHitsCmd->SetGuidance("Set flag to save hits in each run");
   SaveHitsCmd->SetGuidance("into file 'hits.out'");
@@ -91,12 +85,6 @@ DMXEventActionMessenger::DMXEventActionMessenger(DMXEventAction* EvAct)
   DrawTrksCmd->SetCandidates("none charged noscint all");
   DrawTrksCmd->AvailableForStates(G4State_Idle);
 
-  DrawHitsCmd = new G4UIcmdWithABool("/dmx/draw/drawHits",this);
-  DrawHitsCmd->SetGuidance("Set flag to draw hits in PMT.");
-  DrawHitsCmd->SetGuidance("Default = true");
-  DrawHitsCmd->SetParameterName("drawHitsFlag", false);
-  DrawHitsCmd->SetDefaultValue(true);
-
   PrintCmd = new G4UIcmdWithAnInteger("/dmx/printModulo",this);
   PrintCmd->SetGuidance("Print events modulo n");
   PrintCmd->SetParameterName("EventNb",false);
@@ -108,12 +96,10 @@ DMXEventActionMessenger::DMXEventActionMessenger(DMXEventAction* EvAct)
 
 DMXEventActionMessenger::~DMXEventActionMessenger() {
 
-  delete SavePmtCmd;
   delete SaveHitsCmd;
   delete dmxDirectory;
   delete DrawColsCmd;
   delete DrawTrksCmd;
-  delete DrawHitsCmd;
   delete drawDirectory;
   delete PrintCmd;
 
@@ -128,22 +114,6 @@ void DMXEventActionMessenger::SetNewValue
   if(command == DrawTrksCmd)
     eventAction->SetDrawTrksFlag(newValue);
 
-  if(command == DrawHitsCmd) {
-    G4int vl;
-    const char* t = newValue;
-    std::istringstream is(t);
-    is >> vl;
-    eventAction->SetDrawHitsFlag(vl!=0);
-  }
-
-  if(command == SavePmtCmd) {
-    G4int vl;
-    const char* t = newValue;
-    std::istringstream is(t);
-    is >> vl;
-    eventAction->SetSavePmtFlag(vl!=0);
-  }
-
   if(command == SaveHitsCmd) {
     G4int vl;
     const char* t = newValue;
@@ -157,4 +127,3 @@ void DMXEventActionMessenger::SetNewValue
 
 
 }
-

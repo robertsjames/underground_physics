@@ -53,7 +53,6 @@ class G4Material;
 class G4UserLimits;
 
 class DMXScintSD;
-class DMXPmtSD;
 
 class DMXDetectorMessenger;
 
@@ -118,10 +117,6 @@ private:
   G4VPhysicalVolume* vesselbottom_phys1;
   G4LogicalVolume*   vesselbottom_log2;
   G4VPhysicalVolume* vesselbottom_phys2;
-  G4LogicalVolume*   pmtvesselbottom_log1;
-  G4VPhysicalVolume* pmtvesselbottom_phys1;
-  G4LogicalVolume*   pmtvesselbottom_log2;
-  G4VPhysicalVolume* pmtvesselbottom_phys2;
   G4LogicalVolume*   GXe_log;
   G4VPhysicalVolume* GXe_phys;
   G4LogicalVolume*   gaslag_log;
@@ -140,13 +135,8 @@ private:
   G4VPhysicalVolume* grid1_phys;
   G4LogicalVolume*   grid2_log;
   G4VPhysicalVolume* grid2_phys;
-  G4LogicalVolume*   pmt_log;
-  G4VPhysicalVolume* pmt_phys;
-  G4LogicalVolume*   phcath_log;
-  G4VPhysicalVolume* phcath_phys;
 
-  G4Cache<DMXScintSD*> LXeSD; //pointer to sensitive detectors
-  G4Cache<DMXPmtSD*> pmtSD;
+  G4Cache<DMXScintSD*> LXeSD; //pointer to sensitive detector
 
   // pointer to the Detector Messenger:
   DMXDetectorMessenger*  detectorMessenger;

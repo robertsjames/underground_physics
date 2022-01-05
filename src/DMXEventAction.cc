@@ -49,7 +49,7 @@
 #include "DMXRunAction.hh"
 #include "DMXPrimaryGeneratorAction.hh"
 
-// note DMXPmtHit.hh and DMXScintHit.hh are included in DMXEventAction.hh
+// note DMXScintHit.hh is included in DMXEventAction.hh
 
 #include "DMXEventActionMessenger.hh"
 
@@ -73,7 +73,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 DMXEventAction::DMXEventAction()
-  : runAct(0),genAction(0),hitsfile(0),pmtfile(0)
+  : runAct(0),genAction(0),hitsfile(0)
 {
 
   // create messenger
@@ -82,15 +82,12 @@ DMXEventAction::DMXEventAction()
   // defaults for messenger
   drawColsFlag = "standard";
   drawTrksFlag = "all";
-  drawHitsFlag = 1;
-  savePmtFlag  = 0;
   saveHitsFlag = 1;
 
   printModulo = 1;
 
   // hits collections
   scintillatorCollID = -1;
-  pmtCollID = -1;
 
   energy_pri=0;
   seeds=NULL;
@@ -105,11 +102,6 @@ DMXEventAction::~DMXEventAction() {
     {
       hitsfile->close();
       delete hitsfile;
-    }
-  if (pmtfile)
-    {
-      pmtfile->close();
-      delete pmtfile;
     }
   delete eventMessenger;
 }
@@ -154,30 +146,20 @@ void DMXEventAction::BeginOfEventAction(const G4Event* evt)
     scintillatorCollID = SDman->GetCollectionID("scintillatorCollection");
   }
 
-  // get ID for pmt hits collection
-  if (pmtCollID==-1) {
-    G4SDManager *SDman = G4SDManager::GetSDMpointer();
-    pmtCollID = SDman->GetCollectionID("pmtCollection");
-  }
-
 }
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 void DMXEventAction::EndOfEventAction(const G4Event* evt) {
 
-  // check that both hits collections have been defined
-  if(scintillatorCollID<0||pmtCollID<0) return;
+  // check that the hits collection has been defined
+  if(scintillatorCollID<0) return;
 
-  G4AnalysisManager* man = G4AnalysisManager::Instance();
-
-  // address hits collections
+  // address hits collection
   DMXScintHitsCollection* SHC = NULL;
-  DMXPmtHitsCollection*   PHC = NULL;
   G4HCofThisEvent* HCE = evt->GetHCofThisEvent();
   if(HCE) {
     SHC = (DMXScintHitsCollection*)(HCE->GetHC(scintillatorCollID));
-    PHC = (DMXPmtHitsCollection*)(HCE->GetHC(pmtCollID));
   }
 
   // event summary
@@ -187,7 +169,6 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
   firstParticleE    = 0.;
   particleEnergy    = 0.;
   firstLXeHitTime   = 0.;
-  aveTimePmtHits    = 0.;
 
   firstParticleName = "";
   particleName      = "";
@@ -256,32 +237,6 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
   }
 
 
-  // PMT hits
-  if(PHC) {
-    P_hits = PHC->entries();
-
-    // average time of PMT hits
-    for (G4int i=0; i<P_hits; i++) {
-      G4double time = ( (*PHC)[i]->GetTime() - firstLXeHitTime );
-      aveTimePmtHits += time / (G4double)P_hits;
-      ////      if (event_id == 0) {
-      if(P_hits >= 0) {
-	man->FillH1(7,time);
-      }
-    }
-
-    if (event_id%printModulo == 0 && P_hits > 0) {
-      G4cout << "     Average light collection time: "
-	     << G4BestUnit(aveTimePmtHits,"Time") << G4endl;
-      G4cout << "     Number of PMT hits (photoelectron equivalent): "
-	     << P_hits << G4endl;
-    }
-    // write out (x,y,z) of PMT hits
-    if (savePmtFlag)
-      writePmtHitsToFile(PHC);
-  }
-
-
   // write out event summary
   if(saveHitsFlag)
     writeScintHitsToFile();
@@ -289,10 +244,6 @@ void DMXEventAction::EndOfEventAction(const G4Event* evt) {
   // draw trajectories
   if(drawColsFlag=="standard" && drawTrksFlag!="none")
     drawTracks(evt);
-
-  // hits in PMT
-  if(drawHitsFlag && PHC)
-    PHC->DrawAllHits();
 
   // print this event by event (modulo n)
   if (event_id%printModulo == 0)
@@ -350,10 +301,8 @@ void DMXEventAction::writeScintHitsToFile()
 		  << std::setiosflags(std::ios::scientific)
 		  << std::setprecision(2)
 		  << firstLXeHitTime/nanosecond << "\t"
-		  << P_hits << "\t"
 		  << std::setiosflags(std::ios::fixed)
 		  << std::setprecision(4)
-		  << aveTimePmtHits/nanosecond << "\t"
 		  << *seeds     << "\t"
 		  << *(seeds+1) << "\t"
 		  << firstParticleName << "\t"
@@ -379,12 +328,8 @@ void DMXEventAction::writeScintHitsToFile()
       man->FillH1(3,totEnergy);
     }
 
-    man->FillH1(4,P_hits,10); //weight
-    man->FillH1(5,P_hits);
-
     man->FillH1(1,energy_pri/keV);
     man->FillH1(2,totEnergy/keV);
-    man->FillH1(6,aveTimePmtHits/ns);
 
     long seed1 = *seeds;
     long seed2 = *(seeds+1);
@@ -395,8 +340,8 @@ void DMXEventAction::writeScintHitsToFile()
     man->FillNtupleDColumn(2,2,totEnergy);
     man->FillNtupleDColumn(2,3,S_hits);
     man->FillNtupleDColumn(2,4,firstLXeHitTime);
-    man->FillNtupleDColumn(2,5,P_hits);
-    man->FillNtupleDColumn(2,6,aveTimePmtHits);
+    man->FillNtupleDColumn(2,5,0);
+    man->FillNtupleDColumn(2,6,0.);
     man->FillNtupleDColumn(2,7,firstparticleIndex);
     man->FillNtupleDColumn(2,8,firstParticleE);
     man->FillNtupleDColumn(2,9,gamma_ev);
@@ -411,72 +356,6 @@ void DMXEventAction::writeScintHitsToFile()
   }
 
 }
-
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-void DMXEventAction::writePmtHitsToFile(const DMXPmtHitsCollection* hits)
-{
-  G4String filename="pmt.out";
-  if (runAct)
-    filename=runAct->GetsavepmtFile();
-
-
-  //first time it is invoked: create it
-  if (!pmtfile)
-    {
-      //check that we are in a worker: returns -1 in a master and -2 in sequential
-      //one file per thread is produced ending with ".N", with N= thread number
-      if (G4Threading::G4GetThreadId() >= 0)
-	{
-	  std::stringstream sss;
-	  sss << filename.c_str() << "." << G4Threading::G4GetThreadId();
-	  filename = sss.str();
-	  //G4cout << "Filename is: " << filename << G4endl;
-	}
-      pmtfile = new std::ofstream;
-      pmtfile->open(filename);
-    }
-
-
-  G4double x; G4double y; G4double z;
-  G4AnalysisManager* man = G4AnalysisManager::Instance();
-
-  if(pmtfile->is_open()) {
-    (*pmtfile) << "Hit#    X, mm   Y, mm   Z, mm" << G4endl;
-    (*pmtfile) << std::setiosflags(std::ios::fixed)
-	       << std::setprecision(3)
-	       << std::setiosflags(std::ios::left)
-	       << std::setw(6);
-    for (G4int i=0; i<P_hits; i++)
-      {
-	x = ((*hits)[i]->GetPos()).x()/mm;
-	y = ((*hits)[i]->GetPos()).y()/mm;
-	z = ((*hits)[i]->GetPos()).z()/mm;
-	(*pmtfile) << i << "\t"
-		   << x << "\t"
-		   << y << "\t"
-		   << z << G4endl;
-
-	man->FillH2(1,x/mm, y/mm);  // fill(x,y)
-	if (event_id == 0 ) {
-	  man->FillH2(2,x,y);
-	}
-
-	//Fill ntuple #3
-	man->FillNtupleDColumn(3,0,event_id);
-	man->FillNtupleDColumn(3,1,(G4double) i);
-	man->FillNtupleDColumn(3,2,x);
-	man->FillNtupleDColumn(3,3,y);
-	man->FillNtupleDColumn(3,4,z);
-	man->AddNtupleRow(3);
-
-      }
-    if (event_id%printModulo == 0 && P_hits > 0)
-      G4cout << "     " << P_hits << " PMT hits in " << filename << G4endl;
-  }
-
-}
-
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
