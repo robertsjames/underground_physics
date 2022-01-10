@@ -16,6 +16,12 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
+# For NEST integration
+#
+link_directories(${NEST_DIR}/lib)
+find_package(NEST REQUIRED)
+
+#----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 #
 include(${Geant4_USE_FILE})
@@ -41,7 +47,8 @@ endif()
 # Locate sources and headers for this project
 #
 include_directories(${PROJECT_SOURCE_DIR}/include
-                    ${Geant4_INCLUDE_DIR})
+                    ${Geant4_INCLUDE_DIR}
+	            ${NEST_INCLUDE_DIRS})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
@@ -49,7 +56,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(DMX DMX.cc ${sources} ${headers})
-target_link_libraries(DMX ${Geant4_LIBRARIES})
+target_link_libraries(DMX ${Geant4_LIBRARIES} NESTG4)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
