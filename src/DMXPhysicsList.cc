@@ -482,7 +482,6 @@ void DMXPhysicsList::ConstructOp()
   G4OpticalParameters* opParams = G4OpticalParameters::Instance();
   auto* detector = new DetectorExample_LUX_RUN03();
   NEST::NESTProc* theNESTScintillationProcess = new NEST::NESTProc("S1", fElectromagnetic, detector);
-  // G4Scintillation* theScintProcessDef = new G4Scintillation("Scintillation");
   opParams->SetScintTrackSecondariesFirst(true);
   opParams->SetScintByParticleType(true);
 
@@ -499,8 +498,6 @@ void DMXPhysicsList::ConstructOp()
       G4String particleName = particle->GetParticleName();
       if (theNESTScintillationProcess->IsApplicable(*particle)) {
         pmanager->AddProcess(theNESTScintillationProcess, ordDefault+1, ordInActive, ordDefault+1);
-        pmanager->SetProcessOrderingToLast(theNESTScintillationProcess,idxAtRest);
-        pmanager->SetProcessOrderingToLast(theNESTScintillationProcess,idxPostStep);
       }
 
       if (particleName == "opticalphoton") {
