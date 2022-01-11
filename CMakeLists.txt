@@ -56,7 +56,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(DMX DMX.cc ${sources} ${headers})
-target_link_libraries(DMX ${Geant4_LIBRARIES} NESTG4)
+target_link_libraries(DMX ${Geant4_LIBRARIES} NESTCore NESTG4)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
