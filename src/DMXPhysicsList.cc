@@ -238,7 +238,6 @@ void DMXPhysicsList::ConstructParticle()
   ConstructMyLeptons();
   ConstructMyHadrons();
   ConstructMyShortLiveds();
-  NEST::NESTThermalElectron::Definition();
 }
 
 // construct Bosons://///////////////////////////////////////////////////
