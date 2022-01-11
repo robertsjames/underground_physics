@@ -125,7 +125,9 @@
 #include "G4UAtomicDeexcitation.hh"
 #include "G4LossTableManager.hh"
 
-#include "G4Scintillation.hh"
+#include "NEST.hh"
+#include "LUX_Run03.hh"
+#include "NESTProc.hh"
 #include "G4OpAbsorption.hh"
 #include "G4OpBoundaryProcess.hh"
 #include "G4OpticalParameters.hh"
@@ -236,6 +238,7 @@ void DMXPhysicsList::ConstructParticle()
   ConstructMyLeptons();
   ConstructMyHadrons();
   ConstructMyShortLiveds();
+  NEST::NESTThermalElectron::Definition();
 }
 
 // construct Bosons://///////////////////////////////////////////////////
@@ -477,7 +480,9 @@ void DMXPhysicsList::ConstructEM() {
 void DMXPhysicsList::ConstructOp()
 {
   G4OpticalParameters* opParams = G4OpticalParameters::Instance();
-  G4Scintillation* theScintProcessDef = new G4Scintillation("Scintillation");
+  auto* detector = new DetectorExample_LUX_RUN03();
+  NEST::NESTProc* theNESTScintillationProcess = new NEST::NESTProc("S1", fElectromagnetic, detector);
+  // G4Scintillation* theScintProcessDef = new G4Scintillation("Scintillation");
   opParams->SetScintTrackSecondariesFirst(true);
   opParams->SetScintByParticleType(true);
 
@@ -492,10 +497,10 @@ void DMXPhysicsList::ConstructOp()
       G4ParticleDefinition* particle = particleIterator->value();
       G4ProcessManager* pmanager = particle->GetProcessManager();
       G4String particleName = particle->GetParticleName();
-      if (theScintProcessDef->IsApplicable(*particle)) {
-        pmanager->AddProcess(theScintProcessDef);
-        pmanager->SetProcessOrderingToLast(theScintProcessDef,idxAtRest);
-        pmanager->SetProcessOrderingToLast(theScintProcessDef,idxPostStep);
+      if (theNESTScintillationProcess->IsApplicable(*particle)) {
+        pmanager->AddProcess(theNESTScintillationProcess, ordDefault+1, ordInActive, ordDefault+1);
+        pmanager->SetProcessOrderingToLast(theNESTScintillationProcess,idxAtRest);
+        pmanager->SetProcessOrderingToLast(theNESTScintillationProcess,idxPostStep);
       }
 
       if (particleName == "opticalphoton") {
@@ -858,4 +863,3 @@ void DMXPhysicsList::SetCuts()
 
   if (verboseLevel>0) DumpCutValuesTable();
 }
-

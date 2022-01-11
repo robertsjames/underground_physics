@@ -43,21 +43,20 @@
 #define DMXStackingAction_H 1
 
 #include "globals.hh"
-#include "G4UserStackingAction.hh"
+#include "NESTStackingAction.hh"
 
 
 class DMXStackingActionMessenger;
 class G4Navigator;
 class G4Track;
 
-class DMXStackingAction : public G4UserStackingAction {
+class DMXStackingAction : public NESTStackingAction {
 
   public:
     DMXStackingAction();
     virtual ~DMXStackingAction();
 
   public:
-    virtual G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track* aTrack);
     virtual void NewStage();
     virtual void PrepareNewEvent();
 
@@ -65,14 +64,9 @@ class DMXStackingAction : public G4UserStackingAction {
 
 
   private:
-    G4bool killGammasFlag;
 
     G4Navigator* gNavigator;
-
-  public:
-    inline void SetKillGammasFlag(G4bool val)     {killGammasFlag  = val;};
 
 };
 
 #endif
-
